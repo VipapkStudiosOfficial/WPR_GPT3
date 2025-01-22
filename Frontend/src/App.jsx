@@ -26,6 +26,8 @@ import GenerateInvoice from './pages/GenerateInvoice';
 import OutstandingInvoices from './pages/OutstandingInvoices';
 import DamageReport from './pages/DamageReport';
 import VehicleIssuanceNotes from './pages/VehicleIssuanceNotes';
+import MonthlyUsageReport from './pages/MonthlyUsageReport';
+import DamageCasesOverview from './pages/DamageCasesOverview';
 
 const App = () => {
   return (
@@ -55,6 +57,8 @@ const App = () => {
           <Route path="outstanding-invoices" element={<OutstandingInvoices />} />
           <Route path="damage-report" element={<DamageReport />} />
           <Route path="vehicle-issuance-notes" element={<VehicleIssuanceNotes />} />
+          <Route path="monthly-usage-report" element={<MonthlyUsageReport />} />
+          <Route path="damage-cases-overview" element={<DamageCasesOverview />} />
         </Route>
       </Routes>
     </Router>
