@@ -1,0 +1,92 @@
+/* src/pages/CancelReservation.css */
+
+.cancel-reservation {
+    max-width: 65%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.cancel-reservation h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+.reservation-table th,
+.reservation-table td {
+    border: 1px solid #ccc;
+    padding: 0.8rem;
+    text-align: left;
+}
+
+.reservation-table th {
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.cancel-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.confirmation-dialog {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.confirmation-dialog p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.confirm-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+.confirm-button:hover {
+    background-color: #218838;
+}
+
+.cancel-dialog-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #6c757d;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.cancel-dialog-button:hover {
+    background-color: #5a6268;
+}

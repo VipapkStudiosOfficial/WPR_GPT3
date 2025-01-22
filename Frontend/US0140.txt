@@ -1,0 +1,227 @@
+1. Als particuliere huurder wil ik een account kunnen aanmaken en beheren.
+- Gebruiker kan naam, adres, e-mail en telefoonnummer invoeren.
+- Gebruiker ontvangt een bevestigingsmail bij accountaanmaak.
+- Gebruiker kan persoonlijke gegevens bewerken via een accountInstellingenpagina.
+- Gebruiker kan zijn/haar account verwijderen indien gewenst.
+
+2. Als zakelijke klant wil ik een bedrijfsabonnement kunnen aanmaken.
+- Bedrijf kan bedrijfsnaam, adres en KVK-nummer invoeren.
+- Bevestiging van bedrijfsaccount wordt verzonden via e-mail.
+- Bedrijfsabonnement bevat keuze voor abonnementstype (pay-as-you-go of prepaid).
+- Na aanmaken kunnen medewerkers toegevoegd worden aan het bedrijfsabonnement.
+
+3. Als wagenparkbeheerder wil ik zakelijke huurders kunnen beheren.
+- Wagenparkbeheerder kan medewerkers toevoegen of verwijderen.
+- Enkel medewerkers met een bedrijfse-mailadres kunnen worden toegevoegd.
+- Wagenparkbeheerder ontvangt notificaties bij toevoegingen/verwijderingen.
+- Verwijderde medewerkers verliezen direct toegang tot het huursysteem.
+
+4. Als backofficemedewerker wil ik verhuuraanvragen kunnen goedkeuren of afwijzen.
+- Backofficemedewerker heeft toegang tot alle ingevulde huurgegevens.
+- Aanvragen kunnen goedgekeurd of afgewezen worden met een reden.
+- Gebruiker ontvangt een notificatie van goedkeuring of afwijzing.
+- Afgekeurde aanvragen worden gemarkeerd in het systeem.
+
+5. Als particuliere huurder wil ik voertuigen kunnen selecteren op type.
+- Gebruiker kan kiezen tussen auto’s, campers en caravans.
+- Beschikbaarheid van voertuigen wordt getoond op basis van geselecteerde type en datum.
+- Voertuigen kunnen worden gesorteerd op prijs, merk en beschikbaarheid.
+- Gebruiker kan een voertuig kiezen en doorgaan met het aanvraagproces.
+
+6. Als zakelijke huurder wil ik alleen auto’s kunnen huren.
+- Alleen auto’s worden getoond voor zakelijke huurders.
+- Beschikbare auto’s worden gefilterd op basis van ingevoerde data.
+- Alleen zakelijke huurders met een goedgekeurd account kunnen auto’s huren.
+- Voertuigdetails, zoals merk en type, worden weergegeven.
+
+7. Als wagenparkbeheerder wil ik toegang hebben tot een overzicht van alle verhuurde voertuigen.
+- Overzicht toont voertuigen die verhuurd zijn, inclusief verhuurdatum en huurder.
+- Filteropties op basis van verhuurde periode, voertuigtype, en huurder.
+- Exporteerbaar overzicht in CSV- of PDF-formaat.
+- Overzicht wordt realtime bijgewerkt
+
+8. Als particulier wil ik de huurperiode van een voertuig kunnen selecteren.
+- Gebruiker kan start- en einddatum selecteren met een kalenderveld.
+- Voertuigen die niet beschikbaar zijn in de gekozen periode worden verborgen.
+- Gebruiker krijgt een overzicht van de geselecteerde huurperiode bij de aanvraag.
+- Fouten worden gemeld als data niet correct zijn ingevuld.
+
+9. Als backofficemedewerker wil ik schademeldingen kunnen bekijken.
+- Alle schademeldingen worden gelogd en gekoppeld aan specifieke voertuigen.
+- Medewerker kan een voertuigstatus aanpassen naar “in reparatie”.
+- Schademeldingen bevatten foto’s, beschrijvingen en datums van schade.
+- Opmerkingen over reparatie kunnen worden toegevoegd door medewerkers.
+
+10. Als zakelijke klant wil ik medewerkers kunnen toevoegen en verwijderen van het bedrijfsabonnement.
+- Gebruiker kan medewerkers toevoegen door hun zakelijke e-mailadres in te voeren.
+- Verwijderde medewerkers worden per direct uitgesloten van toekomstige verhuur.
+- Systeem stuurt een notificatie naar zowel de nieuwe als verwijderde medewerkers.
+- Maximum aantal toe te voegen medewerkers is afhankelijk van het abonnementstype
+
+11. Als huurder wil ik een overzicht kunnen zien van alle beschikbare voertuigen, inclusief prijs en beschikbaarheid per datum.
+- Overzicht toont voertuigen met beschikbaarheidsperiode, prijs per dag en eventuele bijkomende kosten.
+- Beschikbaarheid wordt gefilterd op geselecteerde data.
+- Gebruiker kan voertuigen sorteren op prijs, merk en type.
+- Gebruiker kan doorklikken voor meer details en voertuigselectie.
+
+12. Als frontofficemedewerker wil ik de uitgifte van voertuigen kunnen registreren.
+- Medewerker kan verhuurtransacties bevestigen en opslaan in het systeem.
+- Systeem toont gegevens van de klant en het voertuig bij uitgifte.
+- Eventuele opmerkingen of extra informatie kunnen toegevoegd worden.
+- Uitgifte-status wordt bijgewerkt naar "uitgegeven".
+
+13. Als backofficemedewerker wil ik het wagenpark kunnen beheren door voertuigen toe te voegen, te verwijderen of te wijzigen.
+- Voertuigen kunnen handmatig toegevoegd worden met merk, type, kleur, bouwjaar en kenteken.
+- Medewerker kan voertuigen wijzigen of verwijderen uit het systeem.
+- Eventuele opmerkingen over onderhoud of status kunnen toegevoegd worden.
+- Wagenparkoverzicht wordt realtime bijgewerkt.
+
+14. Als klant wil ik een bevestigingsmail ontvangen één dag voor mijn huurperiode begint.
+- Systeem verstuurt automatisch een herinneringsmail met ophaallocatie en tijd.
+- Mail bevat veiligheidsinstructies en praktische informatie over het ophalen van het voertuig.
+- Bevestigingsmail kan gepersonaliseerd worden met voertuigdetails.
+- E-mail wordt naar het geregistreerde e-mailadres verzonden.
+
+15. Als zakelijke klant wil ik het type abonnement voor mijn bedrijf kunnen wijzigen.
+- Gebruiker kan een ander abonnementstype selecteren uit de beschikbare opties.
+- Wijzigingen worden bevestigd via e-mail.
+- Eventuele wijzigingen in kosten worden direct zichtbaar.
+- Wijzigingen worden pas actief bij de volgende abonnementsperiode.
+
+16. Als backofficemedewerker wil ik bedrijfsabonnementen kunnen goedkeuren of afwijzen.
+- Medewerker kan alle bedrijfsgegevens inzien voordat goedkeuring of afwijzing plaatsvindt.
+- Reden voor afwijzing kan worden ingevoerd en wordt meegestuurd in een notificatie.
+- Goedkeuring leidt tot automatische toegang voor medewerkers van het bedrijf.
+- Afgewezen bedrijven krijgen een notificatie met eventuele actiepunten.
+
+17. Als wagenparkbeheerder wil ik de status van alle voertuigen kunnen opvragen.
+- Overzicht toont status van voertuigen (beschikbaar, verhuurd, in reparatie, geblokkeerd).
+- Filteropties op status en verhuurperiode beschikbaar.
+- Voertuigstatus kan op elk moment door de beheerder worden bijgewerkt.
+- Realtime statusupdates worden in het overzicht weergegeven.
+
+18. Als huurder wil ik een voertuig kunnen huren zonder tussenkomst van CarAndAll.
+- Gebruiker kan zelfstandig een voertuig boeken en gegevens invoeren.
+- Systeem verifieert beschikbaarheid en bevestigt de reservering.
+- Huurder ontvangt automatisch een bevestigingsmail bij afronding van de boeking.
+- Huurproces kan volledig digitaal afgehandeld worden zonder verdere interventie.
+
+19. Als particuliere huurder wil ik mijn huurgeschiedenis kunnen bekijken.
+- Gebruiker kan een overzicht inzien van eerdere huurtransacties.
+- Geschiedenis toont huurperiode, voertuigdetails en kosten.
+- Gebruiker kan facturen downloaden van eerdere reserveringen.
+- Geschiedenis kan gefilterd worden op datum of voertuigtype.
+
+20. Als zakelijke klant wil ik een notificatie ontvangen wanneer mijn bedrijfsabonnement bijna verloopt.
+- Systeem stuurt automatisch een notificatie één maand voor de abonnementsvervaldatum.
+- Notificatie bevat informatie over het huidige abonnement en verlengopties.
+- Gebruiker kan direct vanuit de notificatie het abonnement verlengen of wijzigen.
+- Notificatie wordt naar de beheerder van het bedrijfsabonnement verzonden.
+
+21. Als klant wil ik een overzicht van de beschikbare abonnementen kunnen zien.
+- Abonnementenpagina toont alle beschikbare abonnementstypes met prijzen en voorwaarden.
+- Gebruiker kan details bekijken zoals inbegrepen dagen en eventuele kortingen.
+- Systeem biedt een vergelijkingsoptie tussen verschillende abonnementen.
+- Gebruiker kan direct een abonnement kiezen en afsluiten via deze pagina.
+
+23. Als backofficemedewerker wil ik voertuigen kunnen blokkeren voor verhuur wanneer ze schade hebben of onderhoud nodig hebben.
+- Medewerker kan voertuigen markeren als “geblokkeerd” met een reden.
+- Geblokkeerde voertuigen verschijnen niet in de beschikbare voertuigenlijst.
+- Status van geblokkeerde voertuigen kan op elk moment worden aangepast.
+- Notities over onderhoud of verwachte reparatiedatum kunnen worden toegevoegd.
+
+24. Als zakelijke klant wil ik een gedetailleerd overzicht kunnen downloaden van alle gehuurde voertuigen in een bepaalde periode.
+- Overzicht bevat details zoals huurperiode, voertuigtype en kosten per huur.
+- Rapport kan geëxporteerd worden naar Excel of PDF.
+- Rapport kan gefilterd worden op huurperiode, voertuigtype of kosten.
+- Gebruiker kan het rapport als factuur gebruiken voor administratieve doeleinden.
+
+25. Als wagenparkbeheerder wil ik een inventarisatierapport van alle voertuigen kunnen downloaden.
+- Inventarisatierapport bevat details zoals merk, type, status en kilometerstand van voertuigen.
+- Rapport kan gedownload worden in PDF-formaat.
+- Systeem biedt optie om het rapport aan te passen met filters.
+- Rapport kan periodiek automatisch gegenereerd en verzonden worden.
+
+26. Als klant wil ik mijn reservering kunnen annuleren via mijn account.
+- Gebruiker kan een reservering selecteren en op de annuleerknop klikken.
+- Systeem vraagt om bevestiging voordat de annulering wordt doorgevoerd.
+- Gebruiker ontvangt een bevestigingsmail van de annulering.
+- Eventuele annuleringskosten worden in het overzicht vermeld.
+
+27. Als backofficemedewerker wil ik automatische herinneringen naar klanten kunnen sturen voor het inleveren van voertuigen.
+- Systeem stuurt automatisch een e-mail en SMS-herinnering één dag voor de inleverdatum.
+- Herinnering bevat de inleverlocatie, datum en tijd.
+- Medewerker kan de inhoud en timing van herinneringen aanpassen.
+- Verlengopties worden vermeld indien beschikbaar.
+
+28. Als wagenparkbeheerder wil ik een planningsoverzicht kunnen zien van wanneer voertuigen beschikbaar zijn.
+- Overzicht toont de verhuurplanning per voertuig op een kalender.
+- Beheerder kan filteren op type voertuig en locatie.
+- Beschikbaarheidsoverzicht is realtime bijgewerkt.
+- Eventuele geplande onderhoudsdata worden ook weergegeven.
+
+30. Als frontofficemedewerker wil ik klantinformatie snel kunnen opzoeken op naam of kenteken.
+- Systeem biedt zoekopties op klantnaam, kenteken of reserveringsnummer.
+- Zoekresultaten tonen klantgegevens, voertuigstatus en huurperiode.
+- Medewerker kan snel naar reserveringsdetails navigeren vanuit zoekresultaten.
+- Zoekfunctionaliteit werkt realtime en is toegankelijk op de voorpagina.
+
+31. Als backofficemedewerker wil ik facturen kunnen genereren voor zakelijke klanten.
+- Systeem genereert facturen op basis van huurperiode en eventuele extra kosten.
+- Facturen kunnen per maand, kwartaal of op aanvraag worden opgesteld.
+- Facturen kunnen geëxporteerd worden in PDF-formaat.
+- Facturen bevatten de bedrijfsnaam, huurdetails en betalingsinstructies.
+
+32. Als zakelijke klant wil ik een overzicht hebben van alle openstaande facturen.
+- Overzicht toont alle facturen met vervaldatum en bedrag.
+- Betalingsstatus (betaald, openstaand) wordt weergegeven bij elke factuur.
+- Gebruiker kan filteren op betaalstatus of factuurdatum.
+- Betaalopties en betalingsinstructies worden duidelijk weergegeven.
+
+33. Als klant wil ik schades aan een voertuig kunnen melden via mijn account.
+- Gebruiker kan foto’s uploaden en een beschrijving van de schade invoeren.
+- Systeem bevestigt ontvangst van de schademelding per e-mail.
+- Schademelding wordt automatisch gekoppeld aan de betreffende reservering.
+- Backofficemedewerkers worden op de hoogte gesteld van de nieuwe melding.
+
+34. Als wagenparkbeheerder wil ik automatisch een onderhoudsplan kunnen genereren voor alle voertuigen.
+- Systeem genereert onderhoudsplannen op basis van kilometerstand en gebruiksintensiteit.
+- Overzicht toont gepland onderhoud per voertuig met verwachte datums.
+- Systeem stuurt notificaties bij geplande onderhoudsdagen.
+- Beheerder kan onderhoudsplan aanpassen indien nodig.
+
+35. Als frontofficemedewerker wil ik opmerkingen kunnen toevoegen bij de uitgifte van voertuigen.
+- Medewerker kan notities toevoegen aan een uitgifte zoals conditie, kilometerstand of brandstofniveau.
+- Notities worden opgeslagen in de huurgeschiedenis van het voertuig.
+- Opmerkingen kunnen later worden bekeken door backoffice- en frontofficemedewerkers.
+- Gebruiker ontvangt een kopie van de opmerkingen in de huurbevestiging.
+
+36. Als klant wil ik een voertuig kunnen reserveren met een specifieke ophaal- en inlevertijd.
+- Gebruiker kan specifieke ophaal- en inlevertijd selecteren bij reservering.
+- Systeem bevestigt beschikbaarheid van het voertuig op de gevraagde tijden.
+- Extra kosten voor afwijkende tijden worden getoond indien van toepassing.
+- Tijden worden bevestigd en weergegeven in de reserveringsdetails.
+
+37. Als zakelijke klant wil ik een rapport ontvangen van mijn maandelijkse voertuiggebruik.
+- Maandrapport toont het aantal gereden kilometers per voertuig en huurperiode.
+- Rapport wordt automatisch gegenereerd en per e-mail verzonden naar de klant.
+- Rapport bevat eventuele extra kosten en schademeldingen.
+- Rapport kan geëxporteerd worden in PDF-formaat.
+
+38. Als wagenparkbeheerder wil ik waarschuwingen ontvangen voor voertuigen die binnenkort voor onderhoud moeten.
+- Systeem stuurt waarschuwingen voor voertuigen die bijna onderhoud nodig hebben.
+- Beheerder ontvangt notificaties via e-mail en dashboard.
+- Voertuigen die bijna onderhoud nodig hebben, worden in het overzicht gemarkeerd.
+- Waarschuwingen kunnen worden aangepast naar persoonlijke voorkeuren.
+
+39. Als klant wil ik een verzekering kunnen toevoegen aan mijn voertuigreservering.
+- Gebruiker kan een verzekeringstype kiezen bij het boeken van een voertuig.
+- Verzekeringsdetails en -kosten worden duidelijk weergegeven.
+- Verzekering wordt toegevoegd aan de factuur en bevestiging van de reservering.
+- Gebruiker ontvangt een samenvatting van de verzekeringsdekking per e-mail.
+
+40. Als backofficemedewerker wil ik een overzicht hebben van alle schadegevallen en hun status.
+- Schadeoverzicht toont alle meldingen met datum, huurder en status (in behandeling, opgelost).
+- Medewerker kan de status van schadegevallen bijwerken.
+- Overzicht kan gefilterd worden op voertuigtype, meldingsdatum en status.
+- Exporteeroptie in PDF- of Excel-formaat beschikbaar voor rapportage.
