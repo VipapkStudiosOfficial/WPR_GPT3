@@ -1,0 +1,98 @@
+/* src/pages/AccountSettings.css */
+
+.account-settings {
+    max-width: 800px;
+    /* Vergroot breedte */
+    margin: 2rem 0;
+    /* Alleen verticale marges */
+    padding: 1.5rem;
+    background-color: #fff;
+    /* Verander achtergrondkleur naar wit */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    /* Vergroot tekstgrootte voor leesbaarheid */
+    line-height: 1.8;
+    /* Vergroot regelafstand voor toegankelijkheid */
+}
+
+.account-settings h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    /* Maak invoervelden groter */
+}
+
+.save-button,
+.edit-button,
+.delete-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1.2rem;
+    font-size: 1.1rem;
+    /* Vergroot knopgrootte */
+}
+
+.save-button {
+    background-color: #ff8800;
+    color: #fff;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.save-button:hover {
+    background-color: #e67600;
+}
+
+.user-info p {
+    margin: 0.8rem 0;
+    font-size: 1.2rem;
+    /* Grotere tekst voor betere leesbaarheid */
+    color: #555;
+}
+
+/* Verplaats naar links */
+.account-settings {
+    margin-left: 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

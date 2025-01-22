@@ -1,0 +1,92 @@
+/* src/pages/VehicleOverview.css */
+
+.vehicle-overview {
+    max-width: 65%;
+    margin: 2rem 1rem;
+    /* Verplaats layout naar links */
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.vehicle-overview h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.filters label {
+    font-weight: bold;
+    color: #333;
+}
+
+.filters label:nth-child(1),
+.filters label:nth-child(2) {
+    flex: 1 1 calc(50% - 1rem);
+    /* Type en Huurder op de eerste regel */
+}
+
+.filters label:nth-child(3),
+.filters label:nth-child(4) {
+    flex: 1 1 calc(50% - 1rem);
+    /* Startdatum en Einddatum op de tweede regel */
+}
+
+.filters input,
+.filters select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.vehicles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+.vehicles-table th,
+.vehicles-table td {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.vehicles-table th {
+    background-color: #f4f4f9;
+    font-weight: bold;
+}
+
+.vehicles-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.export-buttons button {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.export-buttons button:hover {
+    background-color: #0056b3;
+}
