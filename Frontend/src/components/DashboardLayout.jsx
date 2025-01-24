@@ -31,6 +31,7 @@ const DashboardLayout = () => {
                             <li style={{ marginBottom: '4rem' }}>
                                 <strong className="category-title" style={{ fontSize: '1.2rem', display: 'block', marginBottom: '1rem' }}>Wagenparkbeheerder</strong>
                                 <ul className="category-links" style={{ marginLeft: '1.2rem', listStyleType: 'circle', paddingLeft: '1rem' }}>
+                                    <li><Link to="/voertuig-overzicht" aria-label="Voertuig Overzicht pagina">Voertuig Overzicht</Link></li>
                                     <li><Link to="/wagenpark-manager" aria-label="Wagenpark Manager pagina">Wagenpark Manager</Link></li>
                                     <li><Link to="/voertuig-status-beheer" aria-label="Voertuigstatus Beheren pagina">Voertuigstatus Beheren</Link></li>
                                     <li><Link to="/voertuigen-blokkeren" aria-label="Voertuigen Blokkeren pagina">Voertuigen Blokkeren</Link></li>
@@ -42,7 +43,6 @@ const DashboardLayout = () => {
                             <li style={{ marginBottom: '4rem' }}>
                                 <strong className="category-title" style={{ fontSize: '1.2rem', display: 'block', marginBottom: '1rem' }}>Frontofficemedewerker</strong>
                                 <ul className="category-links" style={{ marginLeft: '1.2rem', listStyleType: 'circle', paddingLeft: '1rem' }}>
-                                    <li><Link to="/huur-aanvragen" aria-label="Huur Aanvragen pagina">Huur Aanvragen</Link></li>
                                     <li><Link to="/voertuig-uitgifte" aria-label="Voertuig Uitgifte pagina">Voertuig Uitgifte</Link></li>
                                     <li><Link to="/uitgifte-notities" aria-label="Uitgifte Notities pagina">Uitgifte Notities</Link></li>
                                     <li><Link to="/klant-info-zoeken" aria-label="Klantinformatie Zoeken pagina">Klantinformatie Zoeken</Link></li>
@@ -52,6 +52,7 @@ const DashboardLayout = () => {
                             <li style={{ marginBottom: '4rem' }}>
                                 <strong className="category-title" style={{ fontSize: '1.2rem', display: 'block', marginBottom: '1rem' }}>Backofficemedewerker</strong>
                                 <ul className="category-links" style={{ marginLeft: '1.2rem', listStyleType: 'circle', paddingLeft: '1rem' }}>
+                                    <li><Link to="/huur-aanvragen" aria-label="Huur Aanvragen pagina">Huur Aanvragen</Link></li>
                                     <li><Link to="/schade-rapporten" aria-label="Schade Rapporten pagina">Schade Rapporten</Link></li>
                                     <li><Link to="/schade-overzicht" aria-label="Schade Overzicht pagina">Schade Overzicht</Link></li>
                                     <li><Link to="/huur-rapport-exporteren" aria-label="Huur Rapport Exporteren pagina">Huur Rapport Exporteren</Link></li>
