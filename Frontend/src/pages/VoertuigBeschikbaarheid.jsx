@@ -1,9 +1,9 @@
-// src/pages/VehicleAvailability.jsx
+// src/pages/VoertuigBeschikbaarheid.jsx
 
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import '../styles/VehicleAvailability.css';
+import '../styles/VoertuigBeschikbaarheid.css';
 
 const VehicleAvailability = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());

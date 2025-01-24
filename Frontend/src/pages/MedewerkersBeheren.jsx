@@ -1,7 +1,7 @@
-// src/pages/ManageEmployees.jsx
+// src/pages/MedewerkersBeheren.jsx
 
 import React, { useState } from 'react';
-import '../styles/ManageEmployees.css';
+import '../styles/MedewerkersBeheren.css';
 
 const ManageEmployees = () => {
     const [employees, setEmployees] = useState([

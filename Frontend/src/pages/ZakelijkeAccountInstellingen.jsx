@@ -1,7 +1,7 @@
-// src/pages/BusinessAccountSettings.jsx
+// src/pages/BusinessAccountInstellingen.jsx
 
 import React, { useState } from 'react';
-import '../styles/AccountSettings.css';
+import '../styles/AccountInstellingen.css';
 
 const BusinessAccountSettings = () => {
     const [businessData, setBusinessData] = useState({

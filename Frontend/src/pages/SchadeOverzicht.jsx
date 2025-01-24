@@ -1,8 +1,8 @@
-// src/pages/DamageCasesOverview.jsx
+// src/pages/SchadeOverzicht.jsx
 
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
-import '../styles/DamageCasesOverview.css';
+import '../styles/SchadeOverzicht.css';
 
 const DamageCasesOverview = () => {
     const [filter, setFilter] = useState({ type: '', date: '', status: '' });

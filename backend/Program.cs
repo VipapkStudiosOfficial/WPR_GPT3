@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using backend.Service;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
@@ -52,11 +50,13 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-builder.Services.AddDbContext<ApplicationDBContext>(options => {
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddIdentity<Account, IdentityRole>(options => {
+builder.Services.AddIdentity<Account, IdentityRole>(options =>
+{
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireLowercase = true;
@@ -65,15 +65,18 @@ builder.Services.AddIdentity<Account, IdentityRole>(options => {
 })
 .AddEntityFrameworkStores<ApplicationDBContext>();
 
-builder.Services.AddAuthentication(options => {
-    options.DefaultAuthenticateScheme = 
-    options.DefaultChallengeScheme = 
-    options.DefaultForbidScheme = 
-    options.DefaultScheme = 
-    options.DefaultSignInScheme = 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme =
+    options.DefaultChallengeScheme =
+    options.DefaultForbidScheme =
+    options.DefaultScheme =
+    options.DefaultSignInScheme =
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options => {
-    options.TokenValidationParameters = new TokenValidationParameters{
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
         ValidateIssuer = true,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
@@ -83,10 +86,16 @@ builder.Services.AddAuthentication(options => {
         )
     };
 });
+
+// Add repositories and services
 builder.Services.AddScoped<IPHRepository, PHRepository>();
 builder.Services.AddScoped<IVoertuigRepository, VoertuigRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IZBRepository, ZBRepository>();
+
+// Add HuurAanvraag-related services
+builder.Services.AddScoped<IHuurAanvraagRepository, HuurAanvraagRepository>();
+builder.Services.AddScoped<IHuurAanvraagService, HuurAanvraagService>();
 
 var app = builder.Build();
 
@@ -104,4 +113,3 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.Run();
-

@@ -1,9 +1,9 @@
-// src/pages/ExportRentalReport.jsx
+// src/pages/HuurRapportExporteren.jsx
 
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
-import '../styles/ExportRentalReport.css';
+import '../styles/HuurRapportExporteren.css';
 
 const ExportRentalReport = () => {
     const [rentals, setRentals] = useState([

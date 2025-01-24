@@ -1,7 +1,7 @@
-// src/pages/VehicleIssuanceNotes.jsx
+// src/pages/UitgifteNotities.jsx
 
 import React, { useState } from 'react';
-import '../styles/VehicleIssuanceNotes.css';
+import '../styles/UitgifteNotities.css';
 
 const VehicleIssuanceNotes = () => {
     const [notes, setNotes] = useState({

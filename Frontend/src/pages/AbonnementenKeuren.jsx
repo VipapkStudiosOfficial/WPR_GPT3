@@ -1,7 +1,7 @@
-// src/pages/ApproveRejectSubscriptions.jsx
+// src/pages/AbonnementenKeuren.jsx
 
 import React, { useState } from 'react';
-import '../styles/ApproveRejectSubscriptions.css';
+import '../styles/AbonnementenKeuren.css';
 
 const ApproveRejectSubscriptions = () => {
     const [subscriptions, setSubscriptions] = useState([

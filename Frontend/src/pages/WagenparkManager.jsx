@@ -1,7 +1,7 @@
-// src/pages/FleetManager.jsx
+// src/pages/WagenparkManager.jsx
 
 import React, { useState } from 'react';
-import '../styles/FleetManager.css';
+import '../styles/WagenparkManager.css';
 
 const FleetManager = () => {
     const [employees, setEmployees] = useState([

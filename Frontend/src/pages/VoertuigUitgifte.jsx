@@ -1,7 +1,7 @@
-// src/pages/VehicleIssuance.jsx
+// src/pages/VoertuigUitgifte.jsx
 
 import React, { useState } from 'react';
-import '../styles/VehicleIssuance.css';
+import '../styles/VoertuigUitgifte.css';
 
 const VehicleIssuance = () => {
     const [transactions, setTransactions] = useState([

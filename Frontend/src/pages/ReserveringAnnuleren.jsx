@@ -1,7 +1,7 @@
-// src/pages/CancelReservation.jsx
+// src/pages/ReserveringAnnuleren.jsx
 
 import React, { useState } from 'react';
-import '../styles/CancelReservation.css';
+import '../styles/ReserveringAnnuleren.css';
 
 const CancelReservation = () => {
     const [reservations, setReservations] = useState([

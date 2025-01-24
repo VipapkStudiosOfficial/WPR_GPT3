@@ -1,7 +1,7 @@
-// src/pages/SubscriptionManagement.jsx
+// src/pages/AbonnementBeheer.jsx
 
 import React, { useState } from 'react';
-import '../styles/SubscriptionManagement.css';
+import '../styles/AbonnementBeheer.css';
 
 const SubscriptionManagement = () => {
     const [currentPlan, setCurrentPlan] = useState('Pay-As-You-Go');

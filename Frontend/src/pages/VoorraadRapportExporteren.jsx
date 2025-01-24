@@ -1,8 +1,8 @@
-// src/pages/ExportInventoryReport.jsx
+// src/pages/VoorraadRapportExporteren.jsx
 
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
-import '../styles/ExportInventoryReport.css';
+import '../styles/VoorraadRapportExporteren.css';
 
 const ExportInventoryReport = () => {
     const [vehicles, setVehicles] = useState([

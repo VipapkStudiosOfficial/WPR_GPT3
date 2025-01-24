@@ -1,7 +1,7 @@
-// src/pages/OutstandingInvoices.jsx
+// src/pages/OpenstaandeFacturen.jsx
 
 import React, { useState } from 'react';
-import '../styles/OutstandingInvoices.css';
+import '../styles/OpenstaandeFacturen.css';
 
 const OutstandingInvoices = () => {
     const [filter, setFilter] = useState({ status: '', date: '' });

@@ -1,7 +1,7 @@
-// src/pages/SearchCustomerInfo.jsx
+// src/pages/KlantInfoZoeken.jsx
 
 import React, { useState } from 'react';
-import '../styles/SearchCustomerInfo.css';
+import '../styles/KlantInfoZoeken.css';
 
 const SearchCustomerInfo = () => {
     const [searchQuery, setSearchQuery] = useState('');

@@ -1,8 +1,8 @@
-// src/pages/GenerateInvoice.jsx
+// src/pages/FactuurGenereren.jsx
 
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
-import '../styles/GenerateInvoice.css';
+import '../styles/FactuurGenereren.css';
 
 const GenerateInvoice = () => {
     const [invoiceDetails, setInvoiceDetails] = useState({

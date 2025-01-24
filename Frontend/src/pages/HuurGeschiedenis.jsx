@@ -1,7 +1,7 @@
-// src/pages/RentalHistory.jsx
+// src/pages/HuurGeschiedenis.jsx
 
 import React, { useState } from 'react';
-import '../styles/RentalHistory.css';
+import '../styles/HuurGeschiedenis.css';
 import jsPDF from 'jspdf';
 
 const RentalHistory = () => {

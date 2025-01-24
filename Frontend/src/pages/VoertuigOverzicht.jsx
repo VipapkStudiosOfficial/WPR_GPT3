@@ -1,9 +1,9 @@
-// src/pages/VehicleOverview.jsx
+// src/pages/VoertuigOverzicht.jsx
 
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import '../styles/VehicleOverview.css';
+import '../styles/VoertuigOverzicht.css';
 
 const VehicleOverview = () => {
     const [vehicles, setVehicles] = useState([

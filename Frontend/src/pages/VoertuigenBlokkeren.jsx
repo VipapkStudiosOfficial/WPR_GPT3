@@ -1,7 +1,7 @@
-// src/pages/BlockVehicles.jsx
+// src/pages/VoertuigenBlokkeren.jsx
 
 import React, { useState } from 'react';
-import '../styles/BlockVehicles.css';
+import '../styles/VoertuigenBlokkeren.css';
 
 const BlockVehicles = () => {
     const [vehicles, setVehicles] = useState([

@@ -1,8 +1,8 @@
-// src/pages/MonthlyUsageReport.jsx
+// src/pages/MaandgebruikRapport.jsx
 
 import React from 'react';
 import { jsPDF } from 'jspdf';
-import '../styles/MonthlyUsageReport.css';
+import '../styles/MaandgebruikRapport.css';
 
 const MonthlyUsageReport = () => {
     const reportData = [

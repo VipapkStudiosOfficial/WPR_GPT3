@@ -1,7 +1,7 @@
-// src/pages/VehicleStatusManagement.jsx
+// src/pages/VoertuigStatusBeheer.jsx
 
 import React, { useState } from 'react';
-import '../styles/VehicleStatusManagement.css';
+import '../styles/VoertuigStatusBeheer.css';
 
 const VehicleStatusManagement = () => {
     const [vehicles, setVehicles] = useState([

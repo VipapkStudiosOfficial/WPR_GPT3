@@ -1,0 +1,109 @@
+/* Algemene styling voor het containerdiv van alle huurverzoeken */
+.rental-requests {
+    max-width: 65%;
+    margin: 2rem 1rem;
+    /* Naar links uitgelijnd */
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    min-height: 70vh;
+}
+
+.rental-requests h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Styling voor individuele aanvragen */
+.request {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fffbea;
+    /* Gele achtergrond */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s ease;
+    /* Zachte overgang bij statuswijzigingen */
+}
+
+/* Groene rand voor goedgekeurde aanvragen */
+.request.approved {
+    border: 2px solid #28a745;
+}
+
+/* Rode rand voor afgewezen aanvragen */
+.request.rejected {
+    border: 2px solid #dc3545;
+}
+
+/* Styling voor tekst binnen de aanvraag */
+.request-details p {
+    margin: 0.5rem 0;
+}
+
+/* Flexibele opmaak voor actieknoppen en invoerveld */
+.request-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* Ruimte tussen elementen */
+}
+
+/* Styling voor het invoerveld voor de reden van afwijzing */
+.rejection-input {
+    flex: 1;
+    /* Vul beschikbare ruimte in */
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Algemene styling voor knoppen */
+.approve-button,
+.reject-button {
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Styling voor de goedkeurenknop */
+.approve-button {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.approve-button:hover {
+    background-color: #218838;
+}
+
+/* Styling voor de afwijzenknop */
+.reject-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.reject-button:hover {
+    background-color: #c82333;
+}
+
+/* Styling voor een bericht als er geen verzoeken zijn */
+.no-requests {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 2rem;
+}

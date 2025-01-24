@@ -9,7 +9,7 @@ namespace backend.Models
     public class ZakelijkeBeheerder
     {
         [Key]
-        public int ZBId {get; set;}
+        public int ZBId { get; set; }
         public string BedrijfsNaam { get; set; } = string.Empty;
         public string KvKNummer { get; set; } = string.Empty;
         public string Adres { get; set; } = string.Empty;

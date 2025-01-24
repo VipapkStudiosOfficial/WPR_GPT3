@@ -1,7 +1,7 @@
-// src/pages/AccountSettings.jsx
+// src/pages/AccountInstellingen.jsx
 
 import React, { useState } from 'react';
-import '../styles/AccountSettings.css';
+import '../styles/AccountInstellingen.css';
 
 const AccountSettings = () => {
     const [userData, setUserData] = useState({

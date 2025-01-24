@@ -3,62 +3,62 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DashboardLayout from './components/DashboardLayout';
-import AccountSettings from './pages/AccountSettings';
-import BusinessAccountSettings from './pages/BusinessAccountSettings';
-import FleetManager from './pages/FleetManager';
-import RentalRequests from './pages/RentalRequests';
-import VehicleOverview from './pages/VehicleOverview';
-import DamageReports from './pages/DamageReports';
-import ManageEmployees from './pages/ManageEmployees';
-import VehicleIssuance from './pages/VehicleIssuance';
-import FleetManagement from './pages/FleetManagement';
-import SubscriptionManagement from './pages/SubscriptionManagement';
-import ApproveRejectSubscriptions from './pages/ApproveRejectSubscriptions';
-import VehicleStatusManagement from './pages/VehicleStatusManagement';
-import RentalHistory from './pages/RentalHistory';
-import BlockVehicles from './pages/BlockVehicles';
-import ExportRentalReport from './pages/ExportRentalReport';
-import ExportInventoryReport from './pages/ExportInventoryReport';
-import CancelReservation from './pages/CancelReservation';
-import VehicleAvailability from './pages/VehicleAvailability';
-import SearchCustomerInfo from './pages/SearchCustomerInfo';
-import GenerateInvoice from './pages/GenerateInvoice';
-import OutstandingInvoices from './pages/OutstandingInvoices';
-import DamageReport from './pages/DamageReport';
-import VehicleIssuanceNotes from './pages/VehicleIssuanceNotes';
-import MonthlyUsageReport from './pages/MonthlyUsageReport';
-import DamageCasesOverview from './pages/DamageCasesOverview';
+import AccountInstellingen from './pages/AccountInstellingen';
+import ZakelijkeAccountInstellingen from './pages/ZakelijkeAccountInstellingen';
+import WagenparkManager from './pages/WagenparkManager';
+import HuurAanvragen from './pages/HuurAanvragen';
+import VoertuigOverzicht from './pages/VoertuigOverzicht';
+import SchadeRapporten from './pages/SchadeRapporten';
+import MedewerkersBeheren from './pages/MedewerkersBeheren';
+import VoertuigUitgifte from './pages/VoertuigUitgifte';
+import WagenparkBeheer from './pages/WagenparkBeheer';
+import AbonnementBeheer from './pages/AbonnementBeheer';
+import AbonnementenKeuren from './pages/AbonnementenKeuren';
+import VoertuigStatusBeheer from './pages/VoertuigStatusBeheer';
+import HuurGeschiedenis from './pages/HuurGeschiedenis';
+import VoertuigenBlokkeren from './pages/VoertuigenBlokkeren';
+import HuurRapportExporteren from './pages/HuurRapportExporteren';
+import VoorraadRapportExporteren from './pages/VoorraadRapportExporteren';
+import ReserveringAnnuleren from './pages/ReserveringAnnuleren';
+import VoertuigBeschikbaarheid from './pages/VoertuigBeschikbaarheid';
+import KlantInfoZoeken from './pages/KlantInfoZoeken';
+import FactuurGenereren from './pages/FactuurGenereren';
+import OpenstaandeFacturen from './pages/OpenstaandeFacturen';
+import SchadeMelden from './pages/SchadeMelden';
+import UitgifteNotities from './pages/UitgifteNotities';
+import MaandgebruikRapport from './pages/MaandgebruikRapport';
+import SchadeOverzicht from './pages/SchadeOverzicht';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
-          <Route path="account-settings" element={<AccountSettings />} />
-          <Route path="business-account-settings" element={<BusinessAccountSettings />} />
-          <Route path="fleet-manager" element={<FleetManager />} />
-          <Route path="rental-requests" element={<RentalRequests />} />
-          <Route path="vehicle-overview" element={<VehicleOverview />} />
-          <Route path="damage-reports" element={<DamageReports />} />
-          <Route path="manage-employees" element={<ManageEmployees />} />
-          <Route path="vehicle-issuance" element={<VehicleIssuance />} />
-          <Route path="fleet-management" element={<FleetManagement />} />
-          <Route path="subscription-management" element={<SubscriptionManagement />} />
-          <Route path="approve-reject-subscriptions" element={<ApproveRejectSubscriptions />} />
-          <Route path="vehicle-status-management" element={<VehicleStatusManagement />} />
-          <Route path="rental-history" element={<RentalHistory />} />
-          <Route path="block-vehicles" element={<BlockVehicles />} />
-          <Route path="export-rental-report" element={<ExportRentalReport />} />
-          <Route path="export-inventory-report" element={<ExportInventoryReport />} />
-          <Route path="cancel-reservation" element={<CancelReservation />} />
-          <Route path="vehicle-availability" element={<VehicleAvailability />} />
-          <Route path="search-customer-info" element={<SearchCustomerInfo />} />
-          <Route path="generate-invoice" element={<GenerateInvoice />} />
-          <Route path="outstanding-invoices" element={<OutstandingInvoices />} />
-          <Route path="damage-report" element={<DamageReport />} />
-          <Route path="vehicle-issuance-notes" element={<VehicleIssuanceNotes />} />
-          <Route path="monthly-usage-report" element={<MonthlyUsageReport />} />
-          <Route path="damage-cases-overview" element={<DamageCasesOverview />} />
+          <Route path="account-instellingen" element={<AccountInstellingen />} />
+          <Route path="zakelijke-account-instellingen" element={<ZakelijkeAccountInstellingen />} />
+          <Route path="wagenpark-manager" element={<WagenparkManager />} />
+          <Route path="huur-aanvragen" element={<HuurAanvragen />} />
+          <Route path="voertuig-overzicht" element={<VoertuigOverzicht />} />
+          <Route path="schade-rapporten" element={<SchadeRapporten />} />
+          <Route path="medewerkers-beheren" element={<MedewerkersBeheren />} />
+          <Route path="voertuig-uitgifte" element={<VoertuigUitgifte />} />
+          <Route path="wagenpark-beheer" element={<WagenparkBeheer />} />
+          <Route path="abonnement-beheer" element={<AbonnementBeheer />} />
+          <Route path="abonnementen-keuren" element={<AbonnementenKeuren />} />
+          <Route path="voertuig-status-beheer" element={<VoertuigStatusBeheer />} />
+          <Route path="huur-geschiedenis" element={<HuurGeschiedenis />} />
+          <Route path="voertuigen-blokkeren" element={<VoertuigenBlokkeren />} />
+          <Route path="huur-rapport-exporteren" element={<HuurRapportExporteren />} />
+          <Route path="voorraad-rapport-exporteren" element={<VoorraadRapportExporteren />} />
+          <Route path="reservering-annuleren" element={<ReserveringAnnuleren />} />
+          <Route path="voertuig-beschikbaarheid" element={<VoertuigBeschikbaarheid />} />
+          <Route path="klant-info-zoeken" element={<KlantInfoZoeken />} />
+          <Route path="factuur-genereren" element={<FactuurGenereren />} />
+          <Route path="openstaande-facturen" element={<OpenstaandeFacturen />} />
+          <Route path="schade-melden" element={<SchadeMelden />} />
+          <Route path="uitgifte-notities" element={<UitgifteNotities />} />
+          <Route path="maandgebruik-rapport" element={<MaandgebruikRapport />} />
+          <Route path="schade-overzicht" element={<SchadeOverzicht />} />
         </Route>
       </Routes>
     </Router>

@@ -1,7 +1,7 @@
-// src/pages/DamageReports.jsx
+// src/pages/SchadeRapporten.jsx
 
 import React, { useState } from 'react';
-import '../styles/DamageReports.css';
+import '../styles/SchadeRapporten.css';
 
 const DamageReports = () => {
     const [damageReports, setDamageReports] = useState([
