@@ -3,8 +3,6 @@ using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.Text.Json;
 
 namespace backend.Data
 {
@@ -21,9 +19,9 @@ namespace backend.Data
         public DbSet<ZakelijkeBeheerder> ZakelijkeBeheerders { get; set; } = null!;
         public DbSet<ZakelijkeHuurder> ZakelijkeHuurders { get; set; } = null!;
         public DbSet<Medewerker> Medewerkers { get; set; } = null!;
-        public DbSet<Schade> Schades { get; set; } = null!; // Correcte tabelnaam
+        public DbSet<Schade> Schades { get; set; } = null!;
         public DbSet<Voertuig> Voertuigen { get; set; } = null!;
-        public DbSet<FotoUrl> FotoUrls { get; set; } = null!; // Toevoeging van FotoUrl
+        public DbSet<FotoUrl> FotoUrls { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -51,20 +49,27 @@ namespace backend.Data
                 .HasForeignKey(f => f.SchadeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // HuurAanvraag -> Voertuig
+            // Relatie tussen Schade en HuurAanvraag zonder cascade delete
+            builder.Entity<Schade>()
+                .ToTable("Schades")
+                .HasOne(s => s.HuurAanvraag)
+                .WithMany(h => h.Schades)
+                .HasForeignKey(s => s.HuurAanvraagId)
+                .OnDelete(DeleteBehavior.NoAction); // Geen cascade delete
+
+            // Relatie tussen Schade en Voertuig
+            builder.Entity<Schade>()
+                .HasOne(s => s.Voertuig)
+                .WithMany(v => v.Schades)
+                .HasForeignKey(s => s.VoertuigId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Relatie tussen HuurAanvraag en Voertuig
             builder.Entity<HuurAanvraag>()
                 .HasOne(a => a.Voertuig)
                 .WithMany(v => v.HuurAanvragen)
                 .HasForeignKey(a => a.VoertuigId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            // Configure Schade -> Voertuig
-            builder.Entity<Schade>()
-                .ToTable("Schades")
-                .HasOne(s => s.Voertuig)
-                .WithMany(v => v.Schades)
-                .HasForeignKey(s => s.VoertuigId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

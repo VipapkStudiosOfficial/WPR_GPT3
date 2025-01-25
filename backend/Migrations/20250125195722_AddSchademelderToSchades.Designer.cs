@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250125195722_AddSchademelderToSchades")]
+    partial class AddSchademelderToSchades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,43 +107,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2a568eef-0eb1-4b17-9672-8e0f9257cf48",
+                            Id = "4b700cad-dfab-4706-baab-bb781e700b99",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ca3c3355-a1db-4bec-a0c0-00fff63306b2",
+                            Id = "62e9f992-e5fb-49ea-b9ec-808f8924f0ad",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "010337cf-eeb2-4574-8b5e-6e33b7c83696",
+                            Id = "5ea66f6f-23a2-4f0e-a60a-3a14773064af",
                             Name = "ParticuliereHuurder",
                             NormalizedName = "PARTICULIEREHUURDER"
                         },
                         new
                         {
-                            Id = "7673b076-8924-448a-bd0c-acb8b23d5947",
+                            Id = "b82b8012-9630-49b0-928f-35f5e2634891",
                             Name = "ZakelijkeBeheerder",
                             NormalizedName = "ZAKELIJKEBEHEERDER"
                         },
                         new
                         {
-                            Id = "d809c174-5c99-49c9-b114-053470500155",
+                            Id = "054caf9b-2e07-4f69-8890-85603f3f07c5",
                             Name = "ZakelijkeHuurder",
                             NormalizedName = "ZAKELIJKEHUURDER"
                         },
                         new
                         {
-                            Id = "bb6c9cfa-dc10-41d3-a63f-901c7ed35eef",
+                            Id = "681051d3-4385-4373-b7f7-01b8ddf7c659",
                             Name = "BackOfficeMedewerker",
                             NormalizedName = "BACKOFFICEMEDEWERKER"
                         },
                         new
                         {
-                            Id = "1b5c84ab-f847-461f-a43f-cd1a92c3cfa1",
+                            Id = "a32904e9-1029-455a-aa2a-e39815c5fcd4",
                             Name = "FrontOfficeMedewerker",
                             NormalizedName = "FRONTOFFICEMEDEWERKER"
                         });
@@ -646,7 +649,7 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.HuurAanvraag", "HuurAanvraag")
                         .WithMany("Schades")
                         .HasForeignKey("HuurAanvraagId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend.Models.Voertuig", "Voertuig")

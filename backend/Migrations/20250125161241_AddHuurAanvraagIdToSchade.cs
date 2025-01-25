@@ -47,12 +47,12 @@ namespace backend.Migrations
                 keyColumn: "Id",
                 keyValue: "c9816686-c95f-4b42-b804-786edd8e7e12");
 
-            migrationBuilder.AddColumn<int>(
-                name: "HuurAanvraagId",
-                table: "Schades",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
+            // migrationBuilder.AddColumn<int>(
+            //     name: "HuurAanvraagId",
+            //     table: "Schades",
+            //     type: "int",
+            //     nullable: false,
+            //     defaultValue: 0);
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250125193546_AddHuurAanvraagRelationshipToSchades")]
+    partial class AddHuurAanvraagRelationshipToSchades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,43 +107,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2a568eef-0eb1-4b17-9672-8e0f9257cf48",
+                            Id = "a20fe274-8b5d-4c87-bf28-360479ae7735",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ca3c3355-a1db-4bec-a0c0-00fff63306b2",
+                            Id = "0c3ac382-d486-4373-881d-eb2a99bcffe8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "010337cf-eeb2-4574-8b5e-6e33b7c83696",
+                            Id = "7f27e31f-8e87-4aed-8474-460b09716628",
                             Name = "ParticuliereHuurder",
                             NormalizedName = "PARTICULIEREHUURDER"
                         },
                         new
                         {
-                            Id = "7673b076-8924-448a-bd0c-acb8b23d5947",
+                            Id = "142b876d-a5fe-404d-8f66-7dfec638f415",
                             Name = "ZakelijkeBeheerder",
                             NormalizedName = "ZAKELIJKEBEHEERDER"
                         },
                         new
                         {
-                            Id = "d809c174-5c99-49c9-b114-053470500155",
+                            Id = "6e1871cd-53e6-4e20-969a-7b438600e530",
                             Name = "ZakelijkeHuurder",
                             NormalizedName = "ZAKELIJKEHUURDER"
                         },
                         new
                         {
-                            Id = "bb6c9cfa-dc10-41d3-a63f-901c7ed35eef",
+                            Id = "448b2801-f739-46e2-a363-34bd60c3f095",
                             Name = "BackOfficeMedewerker",
                             NormalizedName = "BACKOFFICEMEDEWERKER"
                         },
                         new
                         {
-                            Id = "1b5c84ab-f847-461f-a43f-cd1a92c3cfa1",
+                            Id = "add87474-c80e-494b-9b6e-551302e97db9",
                             Name = "FrontOfficeMedewerker",
                             NormalizedName = "FRONTOFFICEMEDEWERKER"
                         });
@@ -434,10 +437,6 @@ namespace backend.Migrations
                     b.Property<DateTime>("SchadeDatum")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Schademelder")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -646,7 +645,7 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.HuurAanvraag", "HuurAanvraag")
                         .WithMany("Schades")
                         .HasForeignKey("HuurAanvraagId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("backend.Models.Voertuig", "Voertuig")

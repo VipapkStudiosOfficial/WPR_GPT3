@@ -23,5 +23,8 @@ namespace backend.Models
 
         // Foto's gekoppeld aan deze schade
         public List<FotoUrl> FotoUrls { get; set; } = new List<FotoUrl>();
+
+        // Nieuwe eigenschap: Schademelder
+        public string Schademelder { get; set; } = string.Empty;
     }
 }

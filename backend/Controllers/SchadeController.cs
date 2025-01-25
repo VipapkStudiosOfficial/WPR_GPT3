@@ -1,113 +1,128 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using backend.Dtos.Schade;
-using backend.Interfaces;
 using backend.Models;
+using backend.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
-    [Route("api/schade")]
     [ApiController]
+    [Route("api/[controller]")]
     public class SchadeController : ControllerBase
     {
-        private readonly ISchadeRepository _schadeRepository;
-        private readonly IHuurAanvraagRepository _huurAanvraagRepository;
+        private readonly ApplicationDBContext _context;
 
-        public SchadeController(ISchadeRepository schadeRepository, IHuurAanvraagRepository huurAanvraagRepository)
+        public SchadeController(ApplicationDBContext context)
         {
-            _schadeRepository = schadeRepository;
-            _huurAanvraagRepository = huurAanvraagRepository;
+            _context = context;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        // POST: api/Schade
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] SchadeCreateDto schadeCreateDto)
         {
-            var schades = await _schadeRepository.GetAllAsync();
-            return Ok(schades.Select(s => new SchadeDto
+            // Validatie van HuurAanvraagId
+            var huurAanvraag = await _context.HuurAanvragen.FindAsync(schadeCreateDto.HuurAanvraagId);
+            if (huurAanvraag == null)
             {
-                SchadeId = s.SchadeId,
-                HuurderNaam = s.HuurAanvraag?.Naam ?? "Onbekend",
-                VoertuigNaam = s.HuurAanvraag?.Voertuig?.Naam ?? "Onbekend",
-                Beschrijving = s.Beschrijving,
-                SchadeDatum = s.SchadeDatum,
-                FotoUrls = s.FotoUrls.Select(f => f.Url).ToList(),
-                ReparatieOpmerkingen = s.ReparatieOpmerkingen,
-                Status = s.Status,
-                Schademelder = s.HuurAanvraag?.Naam ?? "Onbekend"
-            }));
+                return BadRequest("Ongeldig HuurAanvraagId. De huuraanvraag bestaat niet.");
+            }
+
+            // Validatie van VoertuigId
+            var voertuig = await _context.Voertuigen.FindAsync(schadeCreateDto.VoertuigId);
+            if (voertuig == null)
+            {
+                return BadRequest("Ongeldig VoertuigId. Het voertuig bestaat niet.");
+            }
+
+            // Maak een nieuw Schade-object
+            var schade = new Schade
+            {
+                HuurAanvraagId = schadeCreateDto.HuurAanvraagId,
+                VoertuigId = schadeCreateDto.VoertuigId,
+                Beschrijving = schadeCreateDto.Beschrijving,
+                SchadeDatum = schadeCreateDto.SchadeDatum,
+                FotoUrls = schadeCreateDto.FotoUrls.Select(url => new FotoUrl { Url = url }).ToList(),
+                Schademelder = schadeCreateDto.Schademelder,
+                Status = "Open" // Standaard status bij aanmaak
+            };
+
+            // Opslaan in de database
+            await _context.Schades.AddAsync(schade);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetById), new { id = schade.SchadeId }, schade);
         }
 
+        // GET: api/Schade/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var schade = await _schadeRepository.GetByIdAsync(id);
-            if (schade == null) return NotFound();
+            var schade = await _context.Schades
+                .Include(s => s.FotoUrls)
+                .Include(s => s.HuurAanvraag)
+                .Include(s => s.Voertuig)
+                .FirstOrDefaultAsync(s => s.SchadeId == id);
 
-            return Ok(new SchadeDto
+            if (schade == null)
+            {
+                return NotFound("Schade niet gevonden.");
+            }
+
+            var schadeDto = new SchadeDto
             {
                 SchadeId = schade.SchadeId,
                 HuurderNaam = schade.HuurAanvraag?.Naam ?? "Onbekend",
-                VoertuigNaam = schade.HuurAanvraag?.Voertuig?.Naam ?? "Onbekend",
+                VoertuigNaam = schade.Voertuig?.Merk + " " + schade.Voertuig?.Model ?? "Onbekend",
                 Beschrijving = schade.Beschrijving,
                 SchadeDatum = schade.SchadeDatum,
                 FotoUrls = schade.FotoUrls.Select(f => f.Url).ToList(),
                 ReparatieOpmerkingen = schade.ReparatieOpmerkingen,
                 Status = schade.Status,
-                Schademelder = schade.HuurAanvraag?.Naam ?? "Onbekend"
-            });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] SchadeCreateDto schadeCreateDto)
-        {
-            var huurAanvraag = await _huurAanvraagRepository.GetByIdAsync(schadeCreateDto.HuurAanvraagId);
-            if (huurAanvraag == null)
-            {
-                return BadRequest("HuurAanvraag niet gevonden.");
-            }
-
-            var schade = new Schade
-            {
-                HuurAanvraagId = schadeCreateDto.HuurAanvraagId,
-                Beschrijving = schadeCreateDto.Beschrijving,
-                SchadeDatum = schadeCreateDto.SchadeDatum,
-                FotoUrls = schadeCreateDto.FotoUrls.Select(url => new FotoUrl { Url = url }).ToList(),
-                Status = "Open",
-                ReparatieOpmerkingen = string.Empty
+                Schademelder = schade.Schademelder
             };
 
-            await _schadeRepository.CreateAsync(schade);
-            return CreatedAtAction(nameof(GetById), new { id = schade.SchadeId }, schade);
+            return Ok(schadeDto);
         }
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromBody] string status)
+        // PUT: api/Schade/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] SchadeUpdateDto schadeUpdateDto)
         {
-            var schade = await _schadeRepository.GetByIdAsync(id);
-            if (schade == null) return NotFound();
+            var schade = await _context.Schades.FindAsync(id);
+            if (schade == null)
+            {
+                return NotFound("Schade niet gevonden.");
+            }
 
-            schade.Status = status;
-            await _schadeRepository.UpdateAsync(schade);
-            return Ok(schade);
+            // Update velden
+            if (!string.IsNullOrEmpty(schadeUpdateDto.Status))
+            {
+                schade.Status = schadeUpdateDto.Status;
+            }
+
+            if (!string.IsNullOrEmpty(schadeUpdateDto.ReparatieOpmerkingen))
+            {
+                schade.ReparatieOpmerkingen = schadeUpdateDto.ReparatieOpmerkingen;
+            }
+
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
-        [HttpPost("{id}/opmerking")]
-        public async Task<IActionResult> AddOpmerking(int id, [FromBody] string opmerking)
-        {
-            var schade = await _schadeRepository.GetByIdAsync(id);
-            if (schade == null) return NotFound();
-
-            schade.ReparatieOpmerkingen += $"{opmerking}\n";
-            await _schadeRepository.UpdateAsync(schade);
-            return Ok(schade);
-        }
-
+        // DELETE: api/Schade/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _schadeRepository.DeleteAsync(id);
+            var schade = await _context.Schades.FindAsync(id);
+            if (schade == null)
+            {
+                return NotFound("Schade niet gevonden.");
+            }
+
+            _context.Schades.Remove(schade);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }
