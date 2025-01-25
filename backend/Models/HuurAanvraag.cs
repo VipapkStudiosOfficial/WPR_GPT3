@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,7 +12,7 @@ namespace backend.Models
 
         [Required] // Verplicht veld
         [MaxLength(100)] // Maximale lengte instellen
-        public string Naam { get; set; } = string.Empty;
+        public string Naam { get; set; } = string.Empty; // Naam van de huurder
 
         [Required]
         [MaxLength(50)] // Status zoals "Pending", "Approved", "Rejected"
@@ -29,5 +30,8 @@ namespace backend.Models
 
         // Navigatie-eigenschap
         public Voertuig Voertuig { get; set; } = null!;
+
+        // Lijst van schademeldingen die aan deze aanvraag zijn gekoppeld
+        public ICollection<Schade> Schades { get; set; } = new List<Schade>();
     }
 }

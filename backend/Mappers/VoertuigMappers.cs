@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Dtos.Voertuig;
+using backend.Models;
+
 
 namespace backend.Mappers
 {
     public static class VoertuigMappers
     {
-        public static VoertuigDto ToVoertuigDto(this Voertuig voertuigModel){
-            return new VoertuigDto{
+        public static VoertuigDto ToVoertuigDto(this Voertuig voertuigModel)
+        {
+            return new VoertuigDto
+            {
                 VoertuigId = voertuigModel.VoertuigId,
                 Type = voertuigModel.Type,
                 Merk = voertuigModel.Merk,
@@ -23,7 +27,8 @@ namespace backend.Mappers
 
         public static Voertuig ToCreateVoertuigDto(this VoertuigCreateDto voertuigDto)
         {
-            return new Voertuig{
+            return new Voertuig
+            {
                 Type = voertuigDto.Type,
                 Merk = voertuigDto.Merk,
                 Model = voertuigDto.Model,

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250125161241_AddHuurAanvraagIdToSchade")]
+    partial class AddHuurAanvraagIdToSchade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,43 +107,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "76a41577-52fa-4b24-acac-202bbb621546",
+                            Id = "07ec294b-6618-4647-aa18-aefb28ef373e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4d690fbb-fa87-4561-9767-9ccafe1ac5dd",
+                            Id = "7b142dc4-d1ec-4e25-b63b-bcceb2cbc269",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "ccb6090e-06dc-40d4-9d90-ddc4857a099b",
+                            Id = "9191fead-f451-4ae5-bd64-02b356973875",
                             Name = "ParticuliereHuurder",
                             NormalizedName = "PARTICULIEREHUURDER"
                         },
                         new
                         {
-                            Id = "2e4ebe32-eff8-484c-a48a-8bbe9a1f4e0a",
+                            Id = "cd7e95b5-cdef-412e-b45e-511f24b959bf",
                             Name = "ZakelijkeBeheerder",
                             NormalizedName = "ZAKELIJKEBEHEERDER"
                         },
                         new
                         {
-                            Id = "fb9dce9d-b22e-41b8-a0cb-006875725f6d",
+                            Id = "6179a1af-211f-4c4d-951e-8791ee43b9c8",
                             Name = "ZakelijkeHuurder",
                             NormalizedName = "ZAKELIJKEHUURDER"
                         },
                         new
                         {
-                            Id = "42af2171-8f6d-45c4-8031-1cf0f4aa9c64",
+                            Id = "02f1608c-5988-45af-9884-bc366d7eb2ed",
                             Name = "BackOfficeMedewerker",
                             NormalizedName = "BACKOFFICEMEDEWERKER"
                         },
                         new
                         {
-                            Id = "aded5caf-c9f6-4a9b-9be8-1b726813bee8",
+                            Id = "584ccba6-e470-44a3-96d8-67026ec7a583",
                             Name = "FrontOfficeMedewerker",
                             NormalizedName = "FRONTOFFICEMEDEWERKER"
                         });

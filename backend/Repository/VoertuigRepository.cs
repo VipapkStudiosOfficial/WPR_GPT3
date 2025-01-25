@@ -6,6 +6,8 @@ using backend.Data;
 using backend.Dtos.Voertuig;
 using backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using backend.Models;
+
 
 namespace backend.Repository
 {

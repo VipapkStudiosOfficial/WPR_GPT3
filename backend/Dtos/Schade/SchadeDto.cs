@@ -3,11 +3,13 @@ namespace backend.Dtos.Schade
     public class SchadeDto
     {
         public int SchadeId { get; set; }
-        public int VoertuigId { get; set; }
-        public string Beschrijving { get; set; } = string.Empty;
+        public string HuurderNaam { get; set; } // Naam van de huurder
+        public string VoertuigNaam { get; set; }
+        public string Beschrijving { get; set; }
         public DateTime SchadeDatum { get; set; }
-        public List<string> FotoUrls { get; set; } = new List<string>(); // Alleen de URL's
-        public string ReparatieOpmerkingen { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
+        public List<string> FotoUrls { get; set; } = new List<string>();
+        public string ReparatieOpmerkingen { get; set; }
+        public string Status { get; set; }
+        public string Schademelder { get; set; }
     }
 }

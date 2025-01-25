@@ -13,10 +13,12 @@ namespace backend.Controllers
     public class SchadeController : ControllerBase
     {
         private readonly ISchadeRepository _schadeRepository;
+        private readonly IHuurAanvraagRepository _huurAanvraagRepository;
 
-        public SchadeController(ISchadeRepository schadeRepository)
+        public SchadeController(ISchadeRepository schadeRepository, IHuurAanvraagRepository huurAanvraagRepository)
         {
             _schadeRepository = schadeRepository;
+            _huurAanvraagRepository = huurAanvraagRepository;
         }
 
         [HttpGet]
@@ -26,15 +28,16 @@ namespace backend.Controllers
             return Ok(schades.Select(s => new SchadeDto
             {
                 SchadeId = s.SchadeId,
-                VoertuigId = s.VoertuigId,
+                HuurderNaam = s.HuurAanvraag?.Naam ?? "Onbekend",
+                VoertuigNaam = s.HuurAanvraag?.Voertuig?.Naam ?? "Onbekend",
                 Beschrijving = s.Beschrijving,
                 SchadeDatum = s.SchadeDatum,
-                FotoUrls = s.FotoUrls.Select(f => f.Url).ToList(), // URLs ophalen
+                FotoUrls = s.FotoUrls.Select(f => f.Url).ToList(),
                 ReparatieOpmerkingen = s.ReparatieOpmerkingen,
-                Status = s.Status
+                Status = s.Status,
+                Schademelder = s.HuurAanvraag?.Naam ?? "Onbekend"
             }));
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -45,25 +48,34 @@ namespace backend.Controllers
             return Ok(new SchadeDto
             {
                 SchadeId = schade.SchadeId,
-                VoertuigId = schade.VoertuigId,
+                HuurderNaam = schade.HuurAanvraag?.Naam ?? "Onbekend",
+                VoertuigNaam = schade.HuurAanvraag?.Voertuig?.Naam ?? "Onbekend",
                 Beschrijving = schade.Beschrijving,
                 SchadeDatum = schade.SchadeDatum,
-                FotoUrls = schade.FotoUrls.Select(f => f.Url).ToList(), // Haal de URL's op
+                FotoUrls = schade.FotoUrls.Select(f => f.Url).ToList(),
                 ReparatieOpmerkingen = schade.ReparatieOpmerkingen,
-                Status = schade.Status
+                Status = schade.Status,
+                Schademelder = schade.HuurAanvraag?.Naam ?? "Onbekend"
             });
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SchadeCreateDto schadeCreateDto)
         {
+            var huurAanvraag = await _huurAanvraagRepository.GetByIdAsync(schadeCreateDto.HuurAanvraagId);
+            if (huurAanvraag == null)
+            {
+                return BadRequest("HuurAanvraag niet gevonden.");
+            }
+
             var schade = new Schade
             {
-                VoertuigId = schadeCreateDto.VoertuigId,
+                HuurAanvraagId = schadeCreateDto.HuurAanvraagId,
                 Beschrijving = schadeCreateDto.Beschrijving,
                 SchadeDatum = schadeCreateDto.SchadeDatum,
                 FotoUrls = schadeCreateDto.FotoUrls.Select(url => new FotoUrl { Url = url }).ToList(),
-                Status = "Open"
+                Status = "Open",
+                ReparatieOpmerkingen = string.Empty
             };
 
             await _schadeRepository.CreateAsync(schade);

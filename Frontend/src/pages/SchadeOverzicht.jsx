@@ -5,9 +5,7 @@ const SchadeOverzicht = () => {
     const [schades, setSchades] = useState([]);
     const [error, setError] = useState('');
 
-    // Ophalen van schademeldingen
     useEffect(() => {
-        console.log('SchadeOverzicht component geladen');
         fetch('/api/schade')
             .then(response => {
                 if (!response.ok) {
@@ -15,29 +13,17 @@ const SchadeOverzicht = () => {
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log('Schades:', data);
-                setSchades(data);
-            })
-            .catch(err => {
-                console.error('Fout bij het ophalen van schades:', err);
-                setError('Fout bij het ophalen van schades: ' + err.message);
-            });
+            .then(data => setSchades(data))
+            .catch(err => setError('Fout bij het ophalen van schades: ' + err.message));
     }, []);
 
-    // Status bijwerken
     const handleStatusChange = (id, status) => {
         fetch(`/api/schade/${id}/status`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(status),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Status kon niet worden bijgewerkt');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(updatedSchade => {
                 setSchades(prev =>
                     prev.map(schade =>
@@ -45,25 +31,16 @@ const SchadeOverzicht = () => {
                     )
                 );
             })
-            .catch(err => {
-                console.error('Fout bij het bijwerken van status:', err);
-                setError('Fout bij het bijwerken van status: ' + err.message);
-            });
+            .catch(err => setError('Fout bij het bijwerken van status: ' + err.message));
     };
 
-    // Opmerking toevoegen
     const handleAddOpmerking = (id, opmerking) => {
         fetch(`/api/schade/${id}/opmerking`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(opmerking),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Opmerking kon niet worden toegevoegd');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(updatedSchade => {
                 setSchades(prev =>
                     prev.map(schade =>
@@ -71,10 +48,7 @@ const SchadeOverzicht = () => {
                     )
                 );
             })
-            .catch(err => {
-                console.error('Fout bij het toevoegen van opmerking:', err);
-                setError('Fout bij het toevoegen van opmerking: ' + err.message);
-            });
+            .catch(err => setError('Fout bij het toevoegen van opmerking: ' + err.message));
     };
 
     if (error) {
@@ -90,31 +64,27 @@ const SchadeOverzicht = () => {
             <h1>Schademeldingen</h1>
             {schades.map(schade => (
                 <div key={schade.schadeId} className="schade-card">
-                    <h2>Voertuig ID: {schade.voertuigId}</h2>
+                    <h2>Voertuig: {schade.voertuigNaam || `ID: ${schade.voertuigId}`}</h2>
+                    <p><strong>Schademelder:</strong> {schade.schademelder || 'Onbekend'}</p>
                     <p><strong>Beschrijving:</strong> {schade.beschrijving}</p>
                     <p><strong>Datum:</strong> {new Date(schade.schadeDatum).toLocaleDateString()}</p>
                     <div className="foto-container">
-                        {schade.fotoUrls.map((url, index) => (
-                            <img key={index} src={url} alt={`Schadefoto ${index + 1}`} />
-                        ))}
+                        {schade.fotoUrls && schade.fotoUrls.length > 0 ? (
+                            schade.fotoUrls.map((url, index) => (
+                                <img key={index} src={url} alt={`Schadefoto ${index + 1}`} />
+                            ))
+                        ) : (
+                            // eslint-disable-next-line react/no-unescaped-entities
+                            <p>Geen foto's beschikbaar</p>
+                        )}
                     </div>
                     <p><strong>Status:</strong> {schade.status}</p>
-                    <div className="status-buttons">
-                        <button className="btn-in-reparatie" onClick={() => handleStatusChange(schade.schadeId, 'In Reparatie')}>
-                            In Reparatie
-                        </button>
-                        <button className="btn-gerepareerd" onClick={() => handleStatusChange(schade.schadeId, 'Gerepareerd')}>
-                            Gerepareerd
-                        </button>
-                    </div>
-                    <div className="opmerkingen">
-                        <h3>Opmerkingen</h3>
-                        <p>{schade.reparatieOpmerkingen}</p>
-                        <textarea
-                            placeholder="Voeg een opmerking toe"
-                            onBlur={e => handleAddOpmerking(schade.schadeId, e.target.value)}
-                        />
-                    </div>
+                    <button onClick={() => handleStatusChange(schade.schadeId, 'In Reparatie')}>In Reparatie</button>
+                    <button onClick={() => handleStatusChange(schade.schadeId, 'Gerepareerd')}>Gerepareerd</button>
+                    <textarea
+                        placeholder="Voeg een opmerking toe"
+                        onBlur={e => handleAddOpmerking(schade.schadeId, e.target.value)}
+                    />
                 </div>
             ))}
         </div>

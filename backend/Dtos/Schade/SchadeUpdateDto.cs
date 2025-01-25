@@ -1,5 +1,8 @@
-public class SchadeUpdateDto
+namespace backend.Dtos.Schade
 {
-    public string? Status { get; set; }
-    public string? ReparatieOpmerkingen { get; set; }
+    public class SchadeUpdateDto
+    {
+        public string? Status { get; set; }
+        public string? ReparatieOpmerkingen { get; set; }
+    }
 }
