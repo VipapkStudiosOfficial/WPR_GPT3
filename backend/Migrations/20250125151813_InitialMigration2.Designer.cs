@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250119214839_second")]
-    partial class second
+    [Migration("20250125151813_InitialMigration2")]
+    partial class InitialMigration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,47 +59,6 @@ namespace backend.Migrations
                     b.HasIndex("ZakelijkeHuurderZHId");
 
                     b.ToTable("Abonnementen");
-                });
-
-            modelBuilder.Entity("HuurAanvraag", b =>
-                {
-                    b.Property<int>("HuurAanvraagId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HuurAanvraagId"));
-
-                    b.Property<DateTime>("EindDatum")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MedewerkerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDatum")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("VoertuigId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ZHId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ZakelijkeHuurderZHId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HuurAanvraagId");
-
-                    b.HasIndex("MedewerkerId");
-
-                    b.HasIndex("VoertuigId");
-
-                    b.HasIndex("ZakelijkeHuurderZHId");
-
-                    b.ToTable("HuurAanvraagen");
                 });
 
             modelBuilder.Entity("Medewerker", b =>
@@ -148,45 +107,45 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0eb477f8-1b36-4eb9-9231-c031a17bc0bb",
+                            Id = "5dee8c73-97c0-42e6-adbc-f97309424bda",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8ef056c4-1ee7-4755-8a14-ab514ffd9546",
+                            Id = "288ba96f-54ef-489f-beaf-fc0af986b249",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "740e6fe8-9f82-4700-8295-03ff350da08e",
+                            Id = "41d6be45-0038-454b-8548-01f88f3e7079",
                             Name = "ParticuliereHuurder",
-                            NormalizedName = "PH"
+                            NormalizedName = "PARTICULIEREHUURDER"
                         },
                         new
                         {
-                            Id = "69f2a699-b29c-430d-aa32-6e3e7dbe30e9",
+                            Id = "84d0657e-604b-47cd-a187-24d73080f60b",
                             Name = "ZakelijkeBeheerder",
-                            NormalizedName = "ZB"
+                            NormalizedName = "ZAKELIJKEBEHEERDER"
                         },
                         new
                         {
-                            Id = "9ef5b00c-4f8b-48e6-beb6-75fef9e11f7c",
+                            Id = "c9816686-c95f-4b42-b804-786edd8e7e12",
                             Name = "ZakelijkeHuurder",
-                            NormalizedName = "ZH"
+                            NormalizedName = "ZAKELIJKEHUURDER"
                         },
                         new
                         {
-                            Id = "f9138561-254a-4f28-8fc8-8b99b7354448",
+                            Id = "37101e11-27f4-410e-b749-7b44d57aa5e5",
                             Name = "BackOfficeMedewerker",
-                            NormalizedName = "BOM"
+                            NormalizedName = "BACKOFFICEMEDEWERKER"
                         },
                         new
                         {
-                            Id = "581a7ad3-80ef-42eb-a0d7-b14f9013e293",
+                            Id = "12d20981-3adb-4b7d-91fd-cf5ff023aba5",
                             Name = "FrontOfficeMedewerker",
-                            NormalizedName = "FOM"
+                            NormalizedName = "FRONTOFFICEMEDEWERKER"
                         });
                 });
 
@@ -317,35 +276,6 @@ namespace backend.Migrations
                     b.ToTable("ParticuliereHuurders");
                 });
 
-            modelBuilder.Entity("Schade", b =>
-                {
-                    b.Property<int>("SchadeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SchadeId"));
-
-                    b.Property<string>("Beschrijving")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Datum")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("VoertuigId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SchadeId");
-
-                    b.HasIndex("VoertuigId");
-
-                    b.ToTable("Schaden");
-                });
-
             modelBuilder.Entity("Voertuig", b =>
                 {
                     b.Property<int>("VoertuigId")
@@ -353,6 +283,10 @@ namespace backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoertuigId"));
+
+                    b.Property<string>("Huurder")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Kenteken")
                         .IsRequired()
@@ -380,6 +314,9 @@ namespace backend.Migrations
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("VerhuurDatum")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("VoertuigId");
 
@@ -463,6 +400,101 @@ namespace backend.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.FotoUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SchadeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchadeId");
+
+                    b.ToTable("FotoUrls", (string)null);
+                });
+
+            modelBuilder.Entity("backend.Models.HuurAanvraag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AanvraagDatum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MedewerkerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Naam")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("RejectReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("VoertuigId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MedewerkerId");
+
+                    b.HasIndex("VoertuigId");
+
+                    b.ToTable("HuurAanvragen");
+                });
+
+            modelBuilder.Entity("backend.Models.Schade", b =>
+                {
+                    b.Property<int>("SchadeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SchadeId"));
+
+                    b.Property<string>("Beschrijving")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReparatieOpmerkingen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SchadeDatum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VoertuigId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SchadeId");
+
+                    b.HasIndex("VoertuigId");
+
+                    b.ToTable("Schades", (string)null);
+                });
+
             modelBuilder.Entity("backend.Models.ZakelijkeBeheerder", b =>
                 {
                     b.Property<int>("ZBId")
@@ -485,7 +517,7 @@ namespace backend.Migrations
 
                     b.HasKey("ZBId");
 
-                    b.ToTable("ZakelijkeBeheerder");
+                    b.ToTable("ZakelijkeBeheerders");
                 });
 
             modelBuilder.Entity("backend.Models.ZakelijkeHuurder", b =>
@@ -510,7 +542,7 @@ namespace backend.Migrations
 
                     b.HasIndex("ZakelijkeBeheerderZBId");
 
-                    b.ToTable("ZakelijkeHuurder");
+                    b.ToTable("ZakelijkeHuurders");
                 });
 
             modelBuilder.Entity("Abonnement", b =>
@@ -522,25 +554,6 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.ZakelijkeHuurder", "ZakelijkeHuurder")
                         .WithMany()
                         .HasForeignKey("ZakelijkeHuurderZHId");
-
-                    b.Navigation("ZakelijkeHuurder");
-                });
-
-            modelBuilder.Entity("HuurAanvraag", b =>
-                {
-                    b.HasOne("Medewerker", null)
-                        .WithMany("HuurAanvragen")
-                        .HasForeignKey("MedewerkerId");
-
-                    b.HasOne("Voertuig", "Voertuig")
-                        .WithMany("HuurAanvragen")
-                        .HasForeignKey("VoertuigId");
-
-                    b.HasOne("backend.Models.ZakelijkeHuurder", "ZakelijkeHuurder")
-                        .WithMany()
-                        .HasForeignKey("ZakelijkeHuurderZHId");
-
-                    b.Navigation("Voertuig");
 
                     b.Navigation("ZakelijkeHuurder");
                 });
@@ -596,11 +609,39 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Schade", b =>
+            modelBuilder.Entity("backend.Models.FotoUrl", b =>
+                {
+                    b.HasOne("backend.Models.Schade", "Schade")
+                        .WithMany("FotoUrls")
+                        .HasForeignKey("SchadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schade");
+                });
+
+            modelBuilder.Entity("backend.Models.HuurAanvraag", b =>
+                {
+                    b.HasOne("Medewerker", null)
+                        .WithMany("HuurAanvragen")
+                        .HasForeignKey("MedewerkerId");
+
+                    b.HasOne("Voertuig", "Voertuig")
+                        .WithMany("HuurAanvragen")
+                        .HasForeignKey("VoertuigId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Voertuig");
+                });
+
+            modelBuilder.Entity("backend.Models.Schade", b =>
                 {
                     b.HasOne("Voertuig", "Voertuig")
                         .WithMany("Schades")
-                        .HasForeignKey("VoertuigId");
+                        .HasForeignKey("VoertuigId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Voertuig");
                 });
@@ -629,6 +670,11 @@ namespace backend.Migrations
                     b.Navigation("HuurAanvragen");
 
                     b.Navigation("Schades");
+                });
+
+            modelBuilder.Entity("backend.Models.Schade", b =>
+                {
+                    b.Navigation("FotoUrls");
                 });
 #pragma warning restore 612, 618
         }

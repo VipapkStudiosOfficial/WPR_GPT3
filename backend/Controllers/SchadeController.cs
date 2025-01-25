@@ -29,11 +29,12 @@ namespace backend.Controllers
                 VoertuigId = s.VoertuigId,
                 Beschrijving = s.Beschrijving,
                 SchadeDatum = s.SchadeDatum,
-                FotoUrls = s.FotoUrls,
+                FotoUrls = s.FotoUrls.Select(f => f.Url).ToList(), // URLs ophalen
                 ReparatieOpmerkingen = s.ReparatieOpmerkingen,
                 Status = s.Status
             }));
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -47,7 +48,7 @@ namespace backend.Controllers
                 VoertuigId = schade.VoertuigId,
                 Beschrijving = schade.Beschrijving,
                 SchadeDatum = schade.SchadeDatum,
-                FotoUrls = schade.FotoUrls,
+                FotoUrls = schade.FotoUrls.Select(f => f.Url).ToList(), // Haal de URL's op
                 ReparatieOpmerkingen = schade.ReparatieOpmerkingen,
                 Status = schade.Status
             });
@@ -61,7 +62,7 @@ namespace backend.Controllers
                 VoertuigId = schadeCreateDto.VoertuigId,
                 Beschrijving = schadeCreateDto.Beschrijving,
                 SchadeDatum = schadeCreateDto.SchadeDatum,
-                FotoUrls = schadeCreateDto.FotoUrls,
+                FotoUrls = schadeCreateDto.FotoUrls.Select(url => new FotoUrl { Url = url }).ToList(),
                 Status = "Open"
             };
 

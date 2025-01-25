@@ -104,43 +104,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cb49f2a2-1b60-4a4b-90c4-b4ff0a65f925",
+                            Id = "5dee8c73-97c0-42e6-adbc-f97309424bda",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "51cce305-ddd5-48eb-93f8-ac2a1295759a",
+                            Id = "288ba96f-54ef-489f-beaf-fc0af986b249",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "7b6d7646-1cbf-4c31-9555-6b8790528809",
+                            Id = "41d6be45-0038-454b-8548-01f88f3e7079",
                             Name = "ParticuliereHuurder",
                             NormalizedName = "PARTICULIEREHUURDER"
                         },
                         new
                         {
-                            Id = "078b4b43-1897-4223-94ea-9e916ad31940",
+                            Id = "84d0657e-604b-47cd-a187-24d73080f60b",
                             Name = "ZakelijkeBeheerder",
                             NormalizedName = "ZAKELIJKEBEHEERDER"
                         },
                         new
                         {
-                            Id = "5edfdefc-7772-45d0-87f8-dfafbdbd6bf8",
+                            Id = "c9816686-c95f-4b42-b804-786edd8e7e12",
                             Name = "ZakelijkeHuurder",
                             NormalizedName = "ZAKELIJKEHUURDER"
                         },
                         new
                         {
-                            Id = "0f710d5e-3641-4ede-87fc-38ceacf4a2ea",
+                            Id = "37101e11-27f4-410e-b749-7b44d57aa5e5",
                             Name = "BackOfficeMedewerker",
                             NormalizedName = "BACKOFFICEMEDEWERKER"
                         },
                         new
                         {
-                            Id = "15787af3-d0e3-42a0-a212-c7edf5a7efa2",
+                            Id = "12d20981-3adb-4b7d-91fd-cf5ff023aba5",
                             Name = "FrontOfficeMedewerker",
                             NormalizedName = "FRONTOFFICEMEDEWERKER"
                         });
@@ -397,6 +397,28 @@ namespace backend.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("backend.Models.FotoUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SchadeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchadeId");
+
+                    b.ToTable("FotoUrls", (string)null);
+                });
+
             modelBuilder.Entity("backend.Models.HuurAanvraag", b =>
                 {
                     b.Property<int>("Id")
@@ -449,10 +471,6 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FotoUrls")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ReparatieOpmerkingen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -471,7 +489,7 @@ namespace backend.Migrations
 
                     b.HasIndex("VoertuigId");
 
-                    b.ToTable("Schaden");
+                    b.ToTable("Schades", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.ZakelijkeBeheerder", b =>
@@ -588,6 +606,17 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("backend.Models.FotoUrl", b =>
+                {
+                    b.HasOne("backend.Models.Schade", "Schade")
+                        .WithMany("FotoUrls")
+                        .HasForeignKey("SchadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schade");
+                });
+
             modelBuilder.Entity("backend.Models.HuurAanvraag", b =>
                 {
                     b.HasOne("Medewerker", null)
@@ -638,6 +667,11 @@ namespace backend.Migrations
                     b.Navigation("HuurAanvragen");
 
                     b.Navigation("Schades");
+                });
+
+            modelBuilder.Entity("backend.Models.Schade", b =>
+                {
+                    b.Navigation("FotoUrls");
                 });
 #pragma warning restore 612, 618
         }

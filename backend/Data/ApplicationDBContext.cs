@@ -21,8 +21,9 @@ namespace backend.Data
         public DbSet<ZakelijkeBeheerder> ZakelijkeBeheerders { get; set; } = null!;
         public DbSet<ZakelijkeHuurder> ZakelijkeHuurders { get; set; } = null!;
         public DbSet<Medewerker> Medewerkers { get; set; } = null!;
-        public DbSet<Schade> Schaden { get; set; } = null!;
+        public DbSet<Schade> Schades { get; set; } = null!; // Correcte tabelnaam
         public DbSet<Voertuig> Voertuigen { get; set; } = null!;
+        public DbSet<FotoUrl> FotoUrls { get; set; } = null!; // Toevoeging van FotoUrl
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,15 +43,13 @@ namespace backend.Data
 
             builder.Entity<IdentityRole>().HasData(roles);
 
-            // Configure value converter for FotoUrls (List<string> to JSON)
-            var stringListConverter = new ValueConverter<List<string>, string>(
-                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()), // Gebruik een standaardoptie
-                v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()) ?? new List<string>() // Geen optionele waarden
-            );
-
-            builder.Entity<Schade>()
-                .Property(s => s.FotoUrls)
-                .HasConversion(stringListConverter);
+            // Configure FotoUrls entity
+            builder.Entity<FotoUrl>()
+                .ToTable("FotoUrls")
+                .HasOne(f => f.Schade)
+                .WithMany(s => s.FotoUrls)
+                .HasForeignKey(f => f.SchadeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // HuurAanvraag -> Voertuig
             builder.Entity<HuurAanvraag>()
@@ -61,6 +60,7 @@ namespace backend.Data
 
             // Configure Schade -> Voertuig
             builder.Entity<Schade>()
+                .ToTable("Schades")
                 .HasOne(s => s.Voertuig)
                 .WithMany(v => v.Schades)
                 .HasForeignKey(s => s.VoertuigId)
