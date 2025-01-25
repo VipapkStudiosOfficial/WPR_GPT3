@@ -1,12 +1,20 @@
-public class Schade
-{
-    public int SchadeId { get; set; }
-    public string Beschrijving { get; set; } = string.Empty;
-    public DateTime Datum { get; set; }
-    public string Status { get; set; } = string.Empty;
-    // 'In behandeling', 'Afgehandeld'
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-    // Relatie: Elke schade hoort bij één voertuig
-    public int? VoertuigId { get; set; }
-    public Voertuig? Voertuig { get; set; } = new Voertuig();
+namespace backend.Models
+{
+    public class Schade
+    {
+        public int SchadeId { get; set; }
+        public int VoertuigId { get; set; }
+        public string Beschrijving { get; set; } = string.Empty;
+        public DateTime SchadeDatum { get; set; }
+        public List<string> FotoUrls { get; set; } = new List<string>();
+        public string ReparatieOpmerkingen { get; set; } = string.Empty;
+        public string Status { get; set; } = "Open";
+
+        public Voertuig Voertuig { get; set; } = null!;
+    }
 }

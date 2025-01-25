@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace backend.Dtos.Voertuig
 {
     public class VoertuigDto
@@ -13,8 +8,11 @@ namespace backend.Dtos.Voertuig
         public string Kenteken { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public string Kleur { get; set; } = string.Empty;
-        public string Status { get; set; }  = string.Empty;// 'Beschikbaar', 'Verhuurd', 'In reparatie'
-        public decimal Prijs {get; set;}
+        public string Status { get; set; } = string.Empty; // 'Beschikbaar', 'Verhuurd', 'In reparatie'
+        public decimal Prijs { get; set; }
 
+        // Toegevoegde eigenschappen
+        public string Huurder { get; set; } = string.Empty; // Naam van de huurder
+        public DateTime? VerhuurDatum { get; set; } // Datum waarop het voertuig is verhuurd
     }
 }

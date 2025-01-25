@@ -90,9 +90,17 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2024.12.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             }
           },
           "imports": [

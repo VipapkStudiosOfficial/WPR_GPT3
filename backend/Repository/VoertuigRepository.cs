@@ -17,6 +17,7 @@ namespace backend.Repository
         {
             _context = context;
         }
+
         public async Task<Voertuig> CreateVoertuigAsync(Voertuig voertuigModel)
         {
             await _context.Voertuigen.AddAsync(voertuigModel);
@@ -30,7 +31,7 @@ namespace backend.Repository
             if (voertuigModel == null)
             {
                 return null;
-            }   
+            }
             _context.Voertuigen.Remove(voertuigModel);
             await _context.SaveChangesAsync();
             return voertuigModel;
@@ -50,10 +51,12 @@ namespace backend.Repository
         {
             var bestaandVoertuig = await _context.Voertuigen.FirstOrDefaultAsync(v => v.VoertuigId == id);
 
-            if (bestaandVoertuig == null )
+            if (bestaandVoertuig == null)
             {
                 return null;
             }
+
+            // Update de velden
             bestaandVoertuig.Status = voertuigUpdateDto.Status;
             bestaandVoertuig.Merk = voertuigUpdateDto.Merk;
             bestaandVoertuig.Model = voertuigUpdateDto.Model;
@@ -61,6 +64,10 @@ namespace backend.Repository
             bestaandVoertuig.Type = voertuigUpdateDto.Type;
             bestaandVoertuig.Kleur = voertuigUpdateDto.Kleur;
             bestaandVoertuig.Prijs = voertuigUpdateDto.Prijs;
+
+            // Voeg de ontbrekende velden toe
+            bestaandVoertuig.Huurder = voertuigUpdateDto.Huurder;
+            bestaandVoertuig.VerhuurDatum = voertuigUpdateDto.VerhuurDatum;
 
             await _context.SaveChangesAsync();
 

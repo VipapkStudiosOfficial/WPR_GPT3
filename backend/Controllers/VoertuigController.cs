@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using backend.Data;
 using backend.Dtos.Voertuig;
-using backend.Interfaces;
-using backend.Mappers;
+using backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 
 namespace backend.Controllers
 {
@@ -15,58 +16,134 @@ namespace backend.Controllers
     public class VoertuigController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        private readonly IVoertuigRepository _voertuigRepo;
 
-        public VoertuigController(ApplicationDBContext context, IVoertuigRepository voertuigRepo)
+        public VoertuigController(ApplicationDBContext context)
         {
-            _voertuigRepo = voertuigRepo;
             _context = context;
         }
 
+        // Ophalen van alle voertuigen
         [HttpGet]
-        public async Task<IActionResult> GetAll(){
-            var voertuigen = await _voertuigRepo.GetAllAsync();
-            var voertuigDto = voertuigen.Select(s => s.ToVoertuigDto());
-
-            return Ok(voertuigDto);
-        }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public IActionResult GetAll()
         {
-            var voertuig = await _voertuigRepo.GetByIdAsync(id);
-            if (voertuig == null) return NotFound();
-            return Ok(voertuig.ToVoertuigDto());
+            var voertuigen = _context.Voertuigen.ToList();
+            return Ok(voertuigen);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] VoertuigCreateDto voertuigCreateDto)
+        // Filteren van voertuigen
+        [HttpPost("filter")]
+        public IActionResult FilterVehicles([FromBody] VoertuigFilterDto filter)
         {
-            var voertuigModel = voertuigCreateDto.ToCreateVoertuigDto();
-            await _voertuigRepo.CreateVoertuigAsync(voertuigModel);
-            return CreatedAtAction(nameof(GetById), new { id = voertuigModel.VoertuigId }, voertuigModel.ToVoertuigDto()); // voertuig.Id moet nu correct werken
+            var query = _context.Voertuigen.AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter.Type))
+                query = query.Where(v => v.Type == filter.Type);
+
+            if (!string.IsNullOrEmpty(filter.Huurder))
+                query = query.Where(v => v.Huurder.Contains(filter.Huurder));
+
+            if (filter.StartDatum.HasValue)
+                query = query.Where(v => v.VerhuurDatum >= filter.StartDatum);
+
+            if (filter.EindDatum.HasValue)
+                query = query.Where(v => v.VerhuurDatum <= filter.EindDatum);
+
+            var filteredVehicles = query.ToList();
+            return Ok(filteredVehicles);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] VoertuigUpdateDto voertuigUpdateDto)
+        // Exporteren van voertuigen
+        [HttpGet("export")]
+        public IActionResult ExportVehicles([FromQuery] string format)
         {
-            var voertuigModel = await _voertuigRepo.UpdateAsync(id, voertuigUpdateDto);
-            if (voertuigModel == null)
+            var vehicles = _context.Voertuigen.ToList();
+
+            if (format.ToLower() == "csv")
             {
-                return NotFound();
+                var csv = GenerateCsv(vehicles);
+                return File(csv, "text/csv", "vehicles.csv");
             }
-            return Ok(voertuigModel.ToVoertuigDto());
+            else if (format.ToLower() == "pdf")
+            {
+                var pdf = GeneratePdf(vehicles);
+                return File(pdf, "application/pdf", "vehicles.pdf");
+            }
+
+            return BadRequest("Ongeldig formaat. Gebruik 'csv' of 'pdf'.");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        // CSV Generator
+        private byte[] GenerateCsv(List<Voertuig> vehicles)
         {
-            var voertuigModel = await _voertuigRepo.DeleteAsync(id);
+            var csv = new StringBuilder();
+            csv.AppendLine("VoertuigId,Type,Merk,Model,Kenteken,Kleur,Status,Prijs,Huurder,VerhuurDatum");
 
-            if (voertuigModel == null)
+            foreach (var vehicle in vehicles)
             {
-                return NotFound();
+                csv.AppendLine($"{vehicle.VoertuigId},{vehicle.Type},{vehicle.Merk},{vehicle.Model},{vehicle.Kenteken},{vehicle.Kleur},{vehicle.Status},{vehicle.Prijs},{vehicle.Huurder},{vehicle.VerhuurDatum?.ToString("yyyy-MM-dd")}");
             }
-            return NoContent();
+
+            return Encoding.UTF8.GetBytes(csv.ToString());
+        }
+
+        // PDF Generator (QuestPDF)
+        private byte[] GeneratePdf(List<Voertuig> vehicles)
+        {
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(20);
+                    page.Content().Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                        });
+
+                        // Tabel header
+                        table.Header(header =>
+                        {
+                            header.Cell().Text("VoertuigId").Bold();
+                            header.Cell().Text("Type").Bold();
+                            header.Cell().Text("Merk").Bold();
+                            header.Cell().Text("Model").Bold();
+                            header.Cell().Text("Kenteken").Bold();
+                            header.Cell().Text("Status").Bold();
+                            header.Cell().Text("Prijs").Bold();
+                            header.Cell().Text("Huurder").Bold();
+                            header.Cell().Text("VerhuurDatum").Bold();
+                        });
+
+                        // Data rijen
+                        foreach (var vehicle in vehicles)
+                        {
+                            table.Cell().Text(vehicle.VoertuigId.ToString());
+                            table.Cell().Text(vehicle.Type);
+                            table.Cell().Text(vehicle.Merk);
+                            table.Cell().Text(vehicle.Model);
+                            table.Cell().Text(vehicle.Kenteken);
+                            table.Cell().Text(vehicle.Status);
+                            table.Cell().Text($"€{vehicle.Prijs:F2}");
+                            table.Cell().Text(vehicle.Huurder ?? "N/A");
+                            table.Cell().Text(vehicle.VerhuurDatum?.ToString("yyyy-MM-dd") ?? "N/A");
+                        }
+                    });
+                });
+            });
+
+            using (var stream = new MemoryStream())
+            {
+                document.GeneratePdf(stream);
+                return stream.ToArray();
+            }
         }
     }
 }

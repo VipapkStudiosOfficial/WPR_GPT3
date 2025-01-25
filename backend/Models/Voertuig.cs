@@ -15,6 +15,10 @@ public class Voertuig
     [Column(TypeName = "decimal(18,2)")]
     public decimal Prijs { get; set; }
 
+    // Toegevoegde eigenschappen
+    public string Huurder { get; set; } = string.Empty; // Naam van de huurder
+    public DateTime? VerhuurDatum { get; set; } // Datum waarop het voertuig is verhuurd
+
     // Relatie: Een voertuig kan meerdere schades hebben
     public List<Schade> Schades { get; set; } = new List<Schade>();
     public List<HuurAanvraag> HuurAanvragen { get; set; } = new List<HuurAanvraag>();

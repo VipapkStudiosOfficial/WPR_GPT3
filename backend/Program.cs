@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -59,7 +58,6 @@ builder.Services.AddIdentity<Account, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
-    options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 12;
 })
@@ -92,10 +90,12 @@ builder.Services.AddScoped<IPHRepository, PHRepository>();
 builder.Services.AddScoped<IVoertuigRepository, VoertuigRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IZBRepository, ZBRepository>();
-
-// Add HuurAanvraag-related services
 builder.Services.AddScoped<IHuurAanvraagRepository, HuurAanvraagRepository>();
 builder.Services.AddScoped<IHuurAanvraagService, HuurAanvraagService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
+
+// Add SchadeRepository
+builder.Services.AddScoped<ISchadeRepository, SchadeRepository>();
 
 var app = builder.Build();
 

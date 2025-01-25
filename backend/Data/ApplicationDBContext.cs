@@ -3,6 +3,8 @@ using backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
 
 namespace backend.Data
 {
@@ -40,6 +42,16 @@ namespace backend.Data
 
             builder.Entity<IdentityRole>().HasData(roles);
 
+            // Configure value converter for FotoUrls (List<string> to JSON)
+            var stringListConverter = new ValueConverter<List<string>, string>(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()), // Gebruik een standaardoptie
+                v => JsonSerializer.Deserialize<List<string>>(v, new JsonSerializerOptions()) ?? new List<string>() // Geen optionele waarden
+            );
+
+            builder.Entity<Schade>()
+                .Property(s => s.FotoUrls)
+                .HasConversion(stringListConverter);
+
             // HuurAanvraag -> Voertuig
             builder.Entity<HuurAanvraag>()
                 .HasOne(a => a.Voertuig)
@@ -47,7 +59,7 @@ namespace backend.Data
                 .HasForeignKey(a => a.VoertuigId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure Schade -> Voertuig (optioneel)
+            // Configure Schade -> Voertuig
             builder.Entity<Schade>()
                 .HasOne(s => s.Voertuig)
                 .WithMany(v => v.Schades)

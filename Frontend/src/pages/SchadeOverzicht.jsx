@@ -1,138 +1,100 @@
-// src/pages/SchadeOverzicht.jsx
-
-import React, { useState } from 'react';
-import { jsPDF } from 'jspdf';
+import React, { useState, useEffect } from 'react';
 import '../styles/SchadeOverzicht.css';
 
-const DamageCasesOverview = () => {
-    const [filter, setFilter] = useState({ type: '', date: '', status: '' });
-    const [damageCases, setDamageCases] = useState([
-        {
-            id: 1,
-            date: '2025-01-10',
-            renter: 'John Doe',
-            vehicleType: 'SUV',
-            status: 'In behandeling',
-        },
-        {
-            id: 2,
-            date: '2025-01-12',
-            renter: 'Jane Smith',
-            vehicleType: 'Sedan',
-            status: 'Opgelost',
-        },
-    ]);
+const SchadeOverzicht = () => {
+    const [schades, setSchades] = useState([]);
+    const [error, setError] = useState('');
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilter((prev) => ({ ...prev, [name]: value }));
+    useEffect(() => {
+        fetch('/api/schade')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Netwerkrespons was niet OK');
+                }
+                return response.json();
+            })
+            .then(data => setSchades(data))
+            .catch(err => setError('Fout bij het ophalen van schades: ' + err.message));
+    }, []);
+
+    const handleStatusChange = (id, status) => {
+        fetch(`/api/schade/${id}/status`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(status),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Status kon niet worden bijgewerkt');
+                }
+                return response.json();
+            })
+            .then(updatedSchade => {
+                setSchades(prev =>
+                    prev.map(schade =>
+                        schade.schadeId === id ? { ...schade, status: updatedSchade.status } : schade
+                    )
+                );
+            })
+            .catch(err => setError('Fout bij het bijwerken van status: ' + err.message));
     };
 
-    const handleStatusChange = (id, newStatus) => {
-        setDamageCases((prev) =>
-            prev.map((caseItem) =>
-                caseItem.id === id ? { ...caseItem, status: newStatus } : caseItem
-            )
-        );
+    const handleAddOpmerking = (id, opmerking) => {
+        fetch(`/api/schade/${id}/opmerking`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(opmerking),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Opmerking kon niet worden toegevoegd');
+                }
+                return response.json();
+            })
+            .then(updatedSchade => {
+                setSchades(prev =>
+                    prev.map(schade =>
+                        schade.schadeId === id ? { ...schade, reparatieOpmerkingen: updatedSchade.reparatieOpmerkingen } : schade
+                    )
+                );
+            })
+            .catch(err => setError('Fout bij het toevoegen van opmerking: ' + err.message));
     };
 
-    const exportToPDF = () => {
-        const doc = new jsPDF();
-        doc.text('Schadegevallen Overzicht', 10, 10);
-        damageCases.forEach((item, index) => {
-            const yOffset = 20 + index * 10;
-            doc.text(
-                `Datum: ${item.date}, Huurder: ${item.renter}, Voertuigtype: ${item.vehicleType}, Status: ${item.status}`,
-                10,
-                yOffset
-            );
-        });
-        doc.save('Schadegevallen_Overzicht.pdf');
-    };
-
-    const filteredCases = damageCases.filter((caseItem) => {
-        const matchesType = filter.type ? caseItem.vehicleType === filter.type : true;
-        const matchesDate = filter.date ? caseItem.date === filter.date : true;
-        const matchesStatus = filter.status ? caseItem.status === filter.status : true;
-        return matchesType && matchesDate && matchesStatus;
-    });
+    if (error) {
+        return <div className="error">{error}</div>;
+    }
 
     return (
-        <div className="damage-cases-overview" style={{ marginLeft: '1rem' }}>
-            <h1>Schadegevallen Overzicht</h1>
-
-            <div className="filters">
-                <label>
-                    Filter op voertuigtype:
-                    <input
-                        type="text"
-                        name="type"
-                        value={filter.type}
-                        onChange={handleFilterChange}
-                        placeholder="Bijv. SUV"
+        <div className="schade-overzicht">
+            <h1>Schademeldingen</h1>
+            {schades.map(schade => (
+                <div key={schade.schadeId} className="schade-card">
+                    <h2>{schade.voertuigId}</h2>
+                    <p>Beschrijving: {schade.beschrijving}</p>
+                    <p>Datum: {new Date(schade.schadeDatum).toLocaleDateString()}</p>
+                    <div className="foto-container">
+                        {schade.fotoUrls.map((url, index) => (
+                            <img key={index} src={url} alt={`Schadefoto ${index + 1}`} />
+                        ))}
+                    </div>
+                    <p>Status: {schade.status}</p>
+                    <button onClick={() => handleStatusChange(schade.schadeId, 'In Reparatie')}>
+                        In Reparatie
+                    </button>
+                    <button onClick={() => handleStatusChange(schade.schadeId, 'Gerepareerd')}>
+                        Gerepareerd
+                    </button>
+                    <h3>Opmerkingen</h3>
+                    <p>{schade.reparatieOpmerkingen}</p>
+                    <textarea
+                        placeholder="Voeg een opmerking toe"
+                        onBlur={e => handleAddOpmerking(schade.schadeId, e.target.value)}
                     />
-                </label>
-
-                <label>
-                    Filter op datum:
-                    <input
-                        type="date"
-                        name="date"
-                        value={filter.date}
-                        onChange={handleFilterChange}
-                    />
-                </label>
-
-                <label>
-                    Filter op status:
-                    <select
-                        name="status"
-                        value={filter.status}
-                        onChange={handleFilterChange}
-                    >
-                        <option value="">Alle</option>
-                        <option value="In behandeling">In behandeling</option>
-                        <option value="Opgelost">Opgelost</option>
-                    </select>
-                </label>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Datum</th>
-                        <th>Huurder</th>
-                        <th>Voertuigtype</th>
-                        <th>Status</th>
-                        <th>Acties</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredCases.map((caseItem) => (
-                        <tr key={caseItem.id}>
-                            <td>{caseItem.date}</td>
-                            <td>{caseItem.renter}</td>
-                            <td>{caseItem.vehicleType}</td>
-                            <td>{caseItem.status}</td>
-                            <td>
-                                <select
-                                    value={caseItem.status}
-                                    onChange={(e) => handleStatusChange(caseItem.id, e.target.value)}
-                                >
-                                    <option value="In behandeling">In behandeling</option>
-                                    <option value="Opgelost">Opgelost</option>
-                                </select>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <button onClick={exportToPDF} className="export-button">
-                Exporteer naar PDF
-            </button>
+                </div>
+            ))}
         </div>
     );
 };
 
-export default DamageCasesOverview;
+export default SchadeOverzicht;
