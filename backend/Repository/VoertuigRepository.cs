@@ -8,7 +8,6 @@ using backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 
-
 namespace backend.Repository
 {
     public class VoertuigRepository : IVoertuigRepository
@@ -58,18 +57,16 @@ namespace backend.Repository
                 return null;
             }
 
-            // Update de velden
-            bestaandVoertuig.Status = voertuigUpdateDto.Status;
-            bestaandVoertuig.Merk = voertuigUpdateDto.Merk;
-            bestaandVoertuig.Model = voertuigUpdateDto.Model;
-            bestaandVoertuig.Kenteken = voertuigUpdateDto.Kenteken;
-            bestaandVoertuig.Type = voertuigUpdateDto.Type;
-            bestaandVoertuig.Kleur = voertuigUpdateDto.Kleur;
-            bestaandVoertuig.Prijs = voertuigUpdateDto.Prijs;
-
-            // Voeg de ontbrekende velden toe
-            bestaandVoertuig.Huurder = voertuigUpdateDto.Huurder;
-            bestaandVoertuig.VerhuurDatum = voertuigUpdateDto.VerhuurDatum;
+            // Update de velden alleen als de nieuwe waarde niet null is
+            bestaandVoertuig.Status = voertuigUpdateDto.Status ?? bestaandVoertuig.Status;
+            bestaandVoertuig.Merk = voertuigUpdateDto.Merk ?? bestaandVoertuig.Merk;
+            bestaandVoertuig.Model = voertuigUpdateDto.Model ?? bestaandVoertuig.Model;
+            bestaandVoertuig.Kenteken = voertuigUpdateDto.Kenteken ?? bestaandVoertuig.Kenteken;
+            bestaandVoertuig.Type = voertuigUpdateDto.Type ?? bestaandVoertuig.Type;
+            bestaandVoertuig.Kleur = voertuigUpdateDto.Kleur ?? bestaandVoertuig.Kleur;
+            bestaandVoertuig.Prijs = voertuigUpdateDto.Prijs ?? bestaandVoertuig.Prijs;
+            bestaandVoertuig.Huurder = voertuigUpdateDto.Huurder ?? bestaandVoertuig.Huurder;
+            bestaandVoertuig.VerhuurDatum = voertuigUpdateDto.VerhuurDatum ?? bestaandVoertuig.VerhuurDatum;
 
             await _context.SaveChangesAsync();
 

@@ -2,16 +2,16 @@ namespace backend.Dtos.Voertuig
 {
     public class VoertuigUpdateDto
     {
-        public string Type { get; set; } = string.Empty; // 'Auto', 'Caravan', 'Camper'
-        public string Merk { get; set; } = string.Empty;
-        public string Kenteken { get; set; } = string.Empty;
-        public string Model { get; set; } = string.Empty;
-        public string Kleur { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty; // 'Beschikbaar', 'Verhuurd', 'In reparatie'
-        public decimal Prijs { get; set; }
+        public string? Type { get; set; } // Optioneel: 'Auto', 'Caravan', 'Camper'
+        public string? Merk { get; set; } // Optioneel merk
+        public string? Kenteken { get; set; } // Optioneel kenteken
+        public string? Model { get; set; } // Optioneel model
+        public string? Kleur { get; set; } // Optioneel kleur
+        public string? Status { get; set; } // Optioneel: 'Beschikbaar', 'Verhuurd', 'In reparatie'
+        public decimal? Prijs { get; set; } // Optionele prijs
 
         // Toegevoegde eigenschappen
-        public string Huurder { get; set; } = string.Empty; // Naam van de huurder
-        public DateTime? VerhuurDatum { get; set; } // Datum waarop het voertuig is verhuurd
+        public string? Huurder { get; set; } // Optioneel: Naam van de huurder
+        public DateTime? VerhuurDatum { get; set; } // Optioneel: Datum waarop het voertuig is verhuurd
     }
 }

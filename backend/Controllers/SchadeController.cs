@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using backend.Dtos.Schade;
 using backend.Models;
@@ -18,44 +20,45 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // POST: api/Schade
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SchadeCreateDto schadeCreateDto)
         {
-            // Validatie van HuurAanvraagId
-            var huurAanvraag = await _context.HuurAanvragen.FindAsync(schadeCreateDto.HuurAanvraagId);
-            if (huurAanvraag == null)
+            try
             {
-                return BadRequest("Ongeldig HuurAanvraagId. De huuraanvraag bestaat niet.");
+                var huurAanvraag = await _context.HuurAanvragen.FindAsync(schadeCreateDto.HuurAanvraagId);
+                if (huurAanvraag == null)
+                {
+                    return BadRequest("Ongeldig HuurAanvraagId. De huuraanvraag bestaat niet.");
+                }
+
+                var voertuig = await _context.Voertuigen.FindAsync(schadeCreateDto.VoertuigId);
+                if (voertuig == null)
+                {
+                    return BadRequest("Ongeldig VoertuigId. Het voertuig bestaat niet.");
+                }
+
+                var schade = new Schade
+                {
+                    HuurAanvraagId = schadeCreateDto.HuurAanvraagId,
+                    VoertuigId = schadeCreateDto.VoertuigId,
+                    Beschrijving = schadeCreateDto.Beschrijving,
+                    SchadeDatum = schadeCreateDto.SchadeDatum,
+                    FotoUrls = schadeCreateDto.FotoUrls.Select(url => new FotoUrl { Url = url }).ToList(),
+                    Schademelder = schadeCreateDto.Schademelder,
+                    Status = "Open"
+                };
+
+                await _context.Schades.AddAsync(schade);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetById), new { id = schade.SchadeId }, schade);
             }
-
-            // Validatie van VoertuigId
-            var voertuig = await _context.Voertuigen.FindAsync(schadeCreateDto.VoertuigId);
-            if (voertuig == null)
+            catch (Exception ex)
             {
-                return BadRequest("Ongeldig VoertuigId. Het voertuig bestaat niet.");
+                return StatusCode(500, $"Interne fout: {ex.Message}");
             }
-
-            // Maak een nieuw Schade-object
-            var schade = new Schade
-            {
-                HuurAanvraagId = schadeCreateDto.HuurAanvraagId,
-                VoertuigId = schadeCreateDto.VoertuigId,
-                Beschrijving = schadeCreateDto.Beschrijving,
-                SchadeDatum = schadeCreateDto.SchadeDatum,
-                FotoUrls = schadeCreateDto.FotoUrls.Select(url => new FotoUrl { Url = url }).ToList(),
-                Schademelder = schadeCreateDto.Schademelder,
-                Status = "Open" // Standaard status bij aanmaak
-            };
-
-            // Opslaan in de database
-            await _context.Schades.AddAsync(schade);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = schade.SchadeId }, schade);
         }
 
-        // GET: api/Schade/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -86,7 +89,6 @@ namespace backend.Controllers
             return Ok(schadeDto);
         }
 
-        // PUT: api/Schade/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] SchadeUpdateDto schadeUpdateDto)
         {
@@ -96,7 +98,6 @@ namespace backend.Controllers
                 return NotFound("Schade niet gevonden.");
             }
 
-            // Update velden
             if (!string.IsNullOrEmpty(schadeUpdateDto.Status))
             {
                 schade.Status = schadeUpdateDto.Status;
@@ -108,10 +109,9 @@ namespace backend.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(schade);
         }
 
-        // DELETE: api/Schade/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

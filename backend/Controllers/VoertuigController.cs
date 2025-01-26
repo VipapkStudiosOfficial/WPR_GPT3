@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using backend.Data;
 using backend.Dtos.Voertuig;
+using backend.Interfaces;
+using backend.Mappers;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
@@ -16,13 +19,14 @@ namespace backend.Controllers
     public class VoertuigController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
+        private readonly IVoertuigRepository _voertuigRepo;
 
-        public VoertuigController(ApplicationDBContext context)
+        public VoertuigController(ApplicationDBContext context, IVoertuigRepository voertuigRepo)
         {
             _context = context;
+            _voertuigRepo = voertuigRepo;
         }
 
-        // Ophalen van alle voertuigen
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -30,7 +34,17 @@ namespace backend.Controllers
             return Ok(voertuigen);
         }
 
-        // Filteren van voertuigen
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var voertuig = _context.Voertuigen.FirstOrDefault(v => v.VoertuigId == id);
+            if (voertuig == null)
+            {
+                return NotFound();
+            }
+            return Ok(voertuig);
+        }
+
         [HttpPost("filter")]
         public IActionResult FilterVehicles([FromBody] VoertuigDto filter)
         {
@@ -52,7 +66,14 @@ namespace backend.Controllers
             return Ok(filteredVehicles);
         }
 
-        // Exporteren van voertuigen
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] VoertuigCreateDto voertuigCreateDto)
+        {
+            var voertuigModel = voertuigCreateDto.ToCreateVoertuigDto();
+            await _voertuigRepo.CreateVoertuigAsync(voertuigModel);
+            return CreatedAtAction(nameof(GetById), new { id = voertuigModel.VoertuigId }, voertuigModel);
+        }
+
         [HttpGet("export")]
         public IActionResult ExportVehicles([FromQuery] string format)
         {
@@ -72,7 +93,6 @@ namespace backend.Controllers
             return BadRequest("Ongeldig formaat. Gebruik 'csv' of 'pdf'.");
         }
 
-        // CSV Generator
         private byte[] GenerateCsv(List<Voertuig> vehicles)
         {
             var csv = new StringBuilder();
@@ -86,15 +106,6 @@ namespace backend.Controllers
             return Encoding.UTF8.GetBytes(csv.ToString());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] VoertuigCreateDto voertuigCreateDto)
-        {
-            var voertuigModel = voertuigCreateDto.ToCreateVoertuigDto();
-            await _voertuigRepo.CreateAsync(voertuigModel);
-            return CreatedAtAction(nameof(GetById), new { id = voertuigModel.VoertuigId }, voertuigModel.ToVoertuigDto()); // voertuig.Id moet nu correct werken
-        }
-
-        // PDF Generator (QuestPDF)
         private byte[] GeneratePdf(List<Voertuig> vehicles)
         {
             var document = Document.Create(container =>
@@ -116,7 +127,6 @@ namespace backend.Controllers
                             columns.RelativeColumn();
                         });
 
-                        // Tabel header
                         table.Header(header =>
                         {
                             header.Cell().Text("VoertuigId").Bold();
@@ -130,7 +140,6 @@ namespace backend.Controllers
                             header.Cell().Text("VerhuurDatum").Bold();
                         });
 
-                        // Data rijen
                         foreach (var vehicle in vehicles)
                         {
                             table.Cell().Text(vehicle.VoertuigId.ToString());

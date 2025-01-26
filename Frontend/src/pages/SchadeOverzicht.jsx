@@ -9,12 +9,12 @@ const SchadeOverzicht = () => {
         fetch('/api/schade')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Netwerkrespons was niet OK');
+                    throw new Error(`Netwerkfout: ${response.status} ${response.statusText}`);
                 }
                 return response.json();
             })
             .then(data => setSchades(data))
-            .catch(err => setError('Fout bij het ophalen van schades: ' + err.message));
+            .catch(err => setError(`Fout bij het ophalen van schades: ${err.message}`));
     }, []);
 
     const handleStatusChange = (id, status) => {
@@ -23,7 +23,12 @@ const SchadeOverzicht = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(status),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Fout bij het bijwerken van status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(updatedSchade => {
                 setSchades(prev =>
                     prev.map(schade =>
@@ -31,24 +36,36 @@ const SchadeOverzicht = () => {
                     )
                 );
             })
-            .catch(err => setError('Fout bij het bijwerken van status: ' + err.message));
+            .catch(err => setError(err.message));
     };
 
     const handleAddOpmerking = (id, opmerking) => {
+        if (!opmerking.trim()) {
+            setError('Opmerking mag niet leeg zijn.');
+            return;
+        }
+
         fetch(`/api/schade/${id}/opmerking`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(opmerking),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Fout bij het toevoegen van opmerking: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(updatedSchade => {
                 setSchades(prev =>
                     prev.map(schade =>
-                        schade.schadeId === id ? { ...schade, reparatieOpmerkingen: updatedSchade.reparatieOpmerkingen } : schade
+                        schade.schadeId === id
+                            ? { ...schade, reparatieOpmerkingen: updatedSchade.reparatieOpmerkingen }
+                            : schade
                     )
                 );
             })
-            .catch(err => setError('Fout bij het toevoegen van opmerking: ' + err.message));
+            .catch(err => setError(err.message));
     };
 
     if (error) {
@@ -74,13 +91,16 @@ const SchadeOverzicht = () => {
                                 <img key={index} src={url} alt={`Schadefoto ${index + 1}`} />
                             ))
                         ) : (
-                            // eslint-disable-next-line react/no-unescaped-entities
                             <p>Geen foto's beschikbaar</p>
                         )}
                     </div>
                     <p><strong>Status:</strong> {schade.status}</p>
-                    <button onClick={() => handleStatusChange(schade.schadeId, 'In Reparatie')}>In Reparatie</button>
-                    <button onClick={() => handleStatusChange(schade.schadeId, 'Gerepareerd')}>Gerepareerd</button>
+                    <button onClick={() => handleStatusChange(schade.schadeId, 'In Reparatie')}>
+                        In Reparatie
+                    </button>
+                    <button onClick={() => handleStatusChange(schade.schadeId, 'Gerepareerd')}>
+                        Gerepareerd
+                    </button>
                     <textarea
                         placeholder="Voeg een opmerking toe"
                         onBlur={e => handleAddOpmerking(schade.schadeId, e.target.value)}
