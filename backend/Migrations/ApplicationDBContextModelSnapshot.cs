@@ -104,43 +104,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2a568eef-0eb1-4b17-9672-8e0f9257cf48",
+                            Id = "a286667e-b7bf-42c8-b75d-a647af556b8a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ca3c3355-a1db-4bec-a0c0-00fff63306b2",
+                            Id = "acbb4724-9668-440d-9d94-effb1cf97bbc",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "010337cf-eeb2-4574-8b5e-6e33b7c83696",
+                            Id = "70b56d1a-d3af-4005-a500-19eda65fdebb",
                             Name = "ParticuliereHuurder",
                             NormalizedName = "PARTICULIEREHUURDER"
                         },
                         new
                         {
-                            Id = "7673b076-8924-448a-bd0c-acb8b23d5947",
+                            Id = "537d4b1a-213d-4f2d-8e96-f440c3fe2719",
                             Name = "ZakelijkeBeheerder",
                             NormalizedName = "ZAKELIJKEBEHEERDER"
                         },
                         new
                         {
-                            Id = "d809c174-5c99-49c9-b114-053470500155",
+                            Id = "f292886b-0b78-4bf4-b9cc-8e23f625307a",
                             Name = "ZakelijkeHuurder",
                             NormalizedName = "ZAKELIJKEHUURDER"
                         },
                         new
                         {
-                            Id = "bb6c9cfa-dc10-41d3-a63f-901c7ed35eef",
+                            Id = "78e60f61-ec4c-48f6-99d3-30452687afdf",
                             Name = "BackOfficeMedewerker",
                             NormalizedName = "BACKOFFICEMEDEWERKER"
                         },
                         new
                         {
-                            Id = "1b5c84ab-f847-461f-a43f-cd1a92c3cfa1",
+                            Id = "e8f5964f-9457-4b94-a66e-b26d3fadac95",
                             Name = "FrontOfficeMedewerker",
                             NormalizedName = "FRONTOFFICEMEDEWERKER"
                         });
@@ -635,7 +635,7 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Voertuig", "Voertuig")
                         .WithMany("HuurAanvragen")
                         .HasForeignKey("VoertuigId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Voertuig");

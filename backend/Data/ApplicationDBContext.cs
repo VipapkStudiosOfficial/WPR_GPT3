@@ -69,7 +69,7 @@ namespace backend.Data
                 .HasOne(a => a.Voertuig)
                 .WithMany(v => v.HuurAanvragen)
                 .HasForeignKey(a => a.VoertuigId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict); // Restrict om cycles te voorkomen
         }
     }
 }

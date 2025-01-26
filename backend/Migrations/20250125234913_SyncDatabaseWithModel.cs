@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class SyncDatabaseWithModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -251,29 +251,6 @@ namespace backend.Migrations
                         column: x => x.VoertuigId,
                         principalTable: "Voertuigen",
                         principalColumn: "VoertuigId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Schades",
-                columns: table => new
-                {
-                    SchadeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VoertuigId = table.Column<int>(type: "int", nullable: false),
-                    Beschrijving = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SchadeDatum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReparatieOpmerkingen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Schades", x => x.SchadeId);
-                    table.ForeignKey(
-                        name: "FK_Schades_Voertuigen_VoertuigId",
-                        column: x => x.VoertuigId,
-                        principalTable: "Voertuigen",
-                        principalColumn: "VoertuigId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -298,23 +275,33 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FotoUrls",
+                name: "Schades",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SchadeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VoertuigId = table.Column<int>(type: "int", nullable: false),
+                    HuurAanvraagId = table.Column<int>(type: "int", nullable: false),
+                    Beschrijving = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SchadeDatum = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReparatieOpmerkingen = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Schademelder = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FotoUrls", x => x.Id);
+                    table.PrimaryKey("PK_Schades", x => x.SchadeId);
                     table.ForeignKey(
-                        name: "FK_FotoUrls_Schades_SchadeId",
-                        column: x => x.SchadeId,
-                        principalTable: "Schades",
-                        principalColumn: "SchadeId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Schades_HuurAanvragen_HuurAanvraagId",
+                        column: x => x.HuurAanvraagId,
+                        principalTable: "HuurAanvragen",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Schades_Voertuigen_VoertuigId",
+                        column: x => x.VoertuigId,
+                        principalTable: "Voertuigen",
+                        principalColumn: "VoertuigId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -345,18 +332,38 @@ namespace backend.Migrations
                         principalColumn: "ZHId");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FotoUrls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SchadeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FotoUrls", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FotoUrls_Schades_SchadeId",
+                        column: x => x.SchadeId,
+                        principalTable: "Schades",
+                        principalColumn: "SchadeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "21b46d14-1ada-486e-b171-9e4837ed7b7e", null, "FrontOfficeMedewerker", "FRONTOFFICEMEDEWERKER" },
-                    { "244af068-b955-43c6-a976-ba1fd00f3c29", null, "ParticuliereHuurder", "PARTICULIEREHUURDER" },
-                    { "420364a1-463c-486d-8f30-e84cf3adfa2a", null, "Admin", "ADMIN" },
-                    { "a8bf99c4-75ef-43be-b64c-a98952682bab", null, "User", "USER" },
-                    { "b41b8fa4-7a8b-4183-b59f-104f2ea83916", null, "ZakelijkeBeheerder", "ZAKELIJKEBEHEERDER" },
-                    { "e251a62f-c486-43af-b90f-75e39a18ac24", null, "BackOfficeMedewerker", "BACKOFFICEMEDEWERKER" },
-                    { "fd25e815-83d2-437d-bb31-9bf376c61676", null, "ZakelijkeHuurder", "ZAKELIJKEHUURDER" }
+                    { "537d4b1a-213d-4f2d-8e96-f440c3fe2719", null, "ZakelijkeBeheerder", "ZAKELIJKEBEHEERDER" },
+                    { "70b56d1a-d3af-4005-a500-19eda65fdebb", null, "ParticuliereHuurder", "PARTICULIEREHUURDER" },
+                    { "78e60f61-ec4c-48f6-99d3-30452687afdf", null, "BackOfficeMedewerker", "BACKOFFICEMEDEWERKER" },
+                    { "a286667e-b7bf-42c8-b75d-a647af556b8a", null, "Admin", "ADMIN" },
+                    { "acbb4724-9668-440d-9d94-effb1cf97bbc", null, "User", "USER" },
+                    { "e8f5964f-9457-4b94-a66e-b26d3fadac95", null, "FrontOfficeMedewerker", "FRONTOFFICEMEDEWERKER" },
+                    { "f292886b-0b78-4bf4-b9cc-8e23f625307a", null, "ZakelijkeHuurder", "ZAKELIJKEHUURDER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -424,6 +431,11 @@ namespace backend.Migrations
                 column: "VoertuigId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Schades_HuurAanvraagId",
+                table: "Schades",
+                column: "HuurAanvraagId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Schades_VoertuigId",
                 table: "Schades",
                 column: "VoertuigId");
@@ -459,9 +471,6 @@ namespace backend.Migrations
                 name: "FotoUrls");
 
             migrationBuilder.DropTable(
-                name: "HuurAanvragen");
-
-            migrationBuilder.DropTable(
                 name: "ParticuliereHuurders");
 
             migrationBuilder.DropTable(
@@ -477,10 +486,13 @@ namespace backend.Migrations
                 name: "Schades");
 
             migrationBuilder.DropTable(
-                name: "Medewerkers");
+                name: "ZakelijkeBeheerders");
 
             migrationBuilder.DropTable(
-                name: "ZakelijkeBeheerders");
+                name: "HuurAanvragen");
+
+            migrationBuilder.DropTable(
+                name: "Medewerkers");
 
             migrationBuilder.DropTable(
                 name: "Voertuigen");

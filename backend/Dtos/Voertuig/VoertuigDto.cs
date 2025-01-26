@@ -10,6 +10,8 @@ namespace backend.Dtos.Voertuig
         public string Kleur { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty; // 'Beschikbaar', 'Verhuurd', 'In reparatie'
         public decimal Prijs { get; set; }
+        public DateTime? StartDatum { get; set; }
+        public DateTime? EindDatum { get; set; }
 
         // Toegevoegde eigenschappen
         public string Huurder { get; set; } = string.Empty; // Naam van de huurder

@@ -32,7 +32,7 @@ namespace backend.Controllers
 
         // Filteren van voertuigen
         [HttpPost("filter")]
-        public IActionResult FilterVehicles([FromBody] VoertuigFilterDto filter)
+        public IActionResult FilterVehicles([FromBody] VoertuigDto filter)
         {
             var query = _context.Voertuigen.AsQueryable();
 
@@ -84,6 +84,14 @@ namespace backend.Controllers
             }
 
             return Encoding.UTF8.GetBytes(csv.ToString());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] VoertuigCreateDto voertuigCreateDto)
+        {
+            var voertuigModel = voertuigCreateDto.ToCreateVoertuigDto();
+            await _voertuigRepo.CreateAsync(voertuigModel);
+            return CreatedAtAction(nameof(GetById), new { id = voertuigModel.VoertuigId }, voertuigModel.ToVoertuigDto()); // voertuig.Id moet nu correct werken
         }
 
         // PDF Generator (QuestPDF)

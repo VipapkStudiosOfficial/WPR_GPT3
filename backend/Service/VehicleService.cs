@@ -22,7 +22,7 @@ public class VehicleService : IVehicleService
             .ToList();
     }
 
-    public List<VoertuigDto> FilterVehicles(VoertuigFilterDto filter)
+    public List<VoertuigDto> FilterVehicles(VoertuigDto filter)
     {
         var query = _context.Voertuigen.AsQueryable();
 
